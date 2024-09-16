@@ -1,0 +1,6 @@
+@use "../utils";
+
+#main-container {
+    max-width: map-get(utils.$breakpoints, "max-screen");
+    margin: auto;
+}

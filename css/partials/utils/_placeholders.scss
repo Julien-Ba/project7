@@ -1,0 +1,5 @@
+@use "./colors";
+
+%outline {
+    outline: 2px solid colors.$clr-primary;
+}

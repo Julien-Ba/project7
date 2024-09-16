@@ -1,0 +1,20 @@
+@use "../utils";
+
+.header {
+    &-title {
+        font-family: "Anton", sans-serif;
+        font-size: 2.75rem;
+        color: utils.$clr-primary;
+    }
+
+    &-search {
+        #submit {
+            font-family: FontAwesome;
+        }
+
+        .search-icon {
+            font-size: 1.6875rem;
+            color: utils.$clr-light;
+        }
+    }
+}
