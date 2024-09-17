@@ -81,6 +81,7 @@ export class Recipe {
 
         const subContainer = document.createElement('div');
         subContainer.classList.add('card-ingredients-container');
+        container.appendChild(subContainer);
 
         let ingredients = [];
         this.ingredients.forEach(ingredient => {
@@ -101,7 +102,7 @@ export class Recipe {
             div.appendChild(p);
             ingredients.push(div);
         });
-        ingredients.forEach(ingredient => container.appendChild(ingredient));
+        ingredients.forEach(ingredient => subContainer.appendChild(ingredient));
         return container;
     }
 
