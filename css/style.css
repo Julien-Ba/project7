@@ -101,8 +101,18 @@ video {
   display: none;
 }
 
+.filters-container .filters-lists ul, .header-search #search, .header-search #submit {
+  border-radius: 0.8rem;
+  border: none;
+}
+
 .header-search #search:focus, .header-search #submit:focus {
   outline: 2px solid rgb(255, 209, 91);
+}
+
+:root {
+  font-family: "Manrope", sans-serif;
+  color: rgb(27, 27, 27);
 }
 
 .header-title {
@@ -110,17 +120,64 @@ video {
   font-size: 2.75rem;
   color: rgb(255, 209, 91);
 }
+.header-search #search,
+.header-search #search::placeholder {
+  color: rgb(122, 122, 122);
+}
 .header-search #submit {
-  font-family: FontAwesome;
+  font-family: "FontAwesome";
 }
 .header-search .search-icon {
   font-size: 1.6875rem;
   color: rgb(255, 255, 255);
 }
 
+.recipe-count {
+  font-family: "Anton", sans-serif;
+  font-size: 1.3125rem;
+}
+
+.card-time {
+  font-size: 0.75rem;
+}
+
+.card-title {
+  font-family: "Anton", sans-serif;
+  font-size: 1.125rem;
+}
+
+.card-recipe-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgb(122, 122, 122);
+}
+.card-recipe-description {
+  font-size: 0.875rem;
+}
+
+.card-ingredients-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgb(122, 122, 122);
+}
+.card-ingredients-description {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.card-ingredients-quantity {
+  font-size: 0.875rem;
+  color: rgb(122, 122, 122);
+}
+
 #main-container {
   max-width: 90rem;
   margin: auto;
+}
+
+main {
+  height: 100dvh;
+  padding: 1rem 4rem;
+  background-color: rgb(237, 237, 237);
 }
 
 .header {
@@ -164,8 +221,6 @@ video {
 .header-search #search {
   width: 100%;
   height: 4.5rem;
-  border-radius: 0.8rem;
-  border: none;
   padding-inline: 2rem 6rem;
 }
 .header-search #search:focus {
@@ -177,8 +232,6 @@ video {
   position: absolute;
   right: 0;
   margin: 0.625rem;
-  border-radius: 0.8rem;
-  border: none;
   background-color: rgb(27, 27, 27);
 }
 .header-search .search-icon {
@@ -189,6 +242,31 @@ video {
   margin: 0.625rem;
   text-align: center;
   align-content: center;
+}
+
+.filters-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filters-container .filters-lists {
+  display: flex;
+  gap: 3rem;
+}
+.filters-container .filters-lists ul {
+  width: 12.2rem;
+  height: 3.5rem;
+  padding: 1rem;
+  background-color: rgb(255, 255, 255);
+  align-content: center;
+}
+.filters-container .filters-title {
+  display: flex;
+  justify-content: space-between;
+}
+.filters-container .filters-title::after {
+  content: "\f078";
+  font-family: "FontAwesome";
 }
 
 /*# sourceMappingURL=style.css.map */

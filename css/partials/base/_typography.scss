@@ -1,5 +1,10 @@
 @use "../utils";
 
+:root {
+    font-family: "Manrope", sans-serif;
+    color: utils.$clr-darker;
+}
+
 .header {
     &-title {
         font-family: "Anton", sans-serif;
@@ -8,13 +13,59 @@
     }
 
     &-search {
+        #search,
+        #search::placeholder {
+            color: utils.$clr-dark;
+        }
+
         #submit {
-            font-family: FontAwesome;
+            font-family: "FontAwesome";
         }
 
         .search-icon {
             font-size: 1.6875rem;
-            color: utils.$clr-light;
+            color: utils.$clr-lighter;
         }
+    }
+}
+
+.recipe-count {
+    font-family: "Anton", sans-serif;
+    font-size: 1.3125rem;
+}
+
+.card-time {
+    font-size: 0.75rem;
+}
+
+.card-title {
+    font-family: "Anton", sans-serif;
+    font-size: 1.125rem;
+}
+
+.card-recipe {
+    &-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: utils.$clr-dark;
+    }
+    &-description {
+        font-size: 0.875rem;
+    }
+}
+
+.card-ingredients {
+    &-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: utils.$clr-dark;
+    }
+    &-description {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    &-quantity {
+        font-size: 0.875rem;
+        color: utils.$clr-dark;
     }
 }

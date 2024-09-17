@@ -1,0 +1,35 @@
+@use "../utils";
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+    width: 23.75rem;
+    height: 45.7rem;
+    background-color: utils.$clr-lighter;
+    @extend %border;
+    display: grid;
+    grid-template-rows: 34.6% 1fr;
+    overflow: auto;
+
+    &-time {
+        padding: 0.5rem 1rem;
+        background-color: utils.$clr-primary;
+        @extend %border;
+    }
+
+    &-content {
+        padding: 2rem 1rem;
+        display: grid;
+        grid-template-rows: 4rem auto auto;
+        gap: 2rem;
+    }
+
+    &-ingredients {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
