@@ -4,9 +4,9 @@ import { Recipe } from './template/recipes.js';
 function displayRecipes(recipes) {
     const container = document.querySelector('.cards');
 
-    recipes.forEach(recipe => {
+    recipes.forEach(async (recipe) => {
         const recipeTemplate = new Recipe(recipe);
-        container.appendChild(recipeTemplate.getRecipeDOM());
+        container.appendChild(await recipeTemplate.getRecipeDOM());
     });
 }
 
