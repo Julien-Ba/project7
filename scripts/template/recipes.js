@@ -103,12 +103,3 @@ function getRecipeIngredientsDOM(ingredients) {
     ingredientsDOM.forEach(ingredient => subContainer.appendChild(ingredient));
     return container;
 }
-
-function isImageLoading(path) {
-    return new Promise((resolve) => {
-        let image = new Image();
-        image.src = `assets/images/${path}`;
-        image.onload = () => resolve(true);
-        image.onerror = () => resolve(false);
-    });
-}
