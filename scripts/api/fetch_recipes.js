@@ -128,7 +128,7 @@ function isValidIngredients(ingredients) {
         console.error(`Recipe ingredients: ${ingredients} needs to be an array!`);
         return false;
     }
-    if (ingredients.some(ingredient => typeof ingredient !== 'object' || !(ingredient instanceof Object))) {
+    if (ingredients.some(ingredient => typeof ingredient !== 'object')) {
         console.error(`Recipe ingredients: ${ingredients} contains non object elements!`);
         return false;
     }
