@@ -8,32 +8,48 @@ export async function getRecipes() {
 
         const json = await response.json();
         console.debug(json);
-        return validateRecipes(json);
+        return await validateRecipes(json);
     } catch (error) {
         console.error(error.message);
         return [];
     }
 }
 
-function validateRecipes(json) {
+async function validateRecipes(json) {
     if (!Array.isArray(json.recipes)) {
         console.error('Invalid recipes data: expected an array');
         return [];
     }
 
-    return json.recipes.filter(isValidRecipe);
+    const validRecipes = [];
+    for (const recipe of json.recipes) {
+        console.debug('Validating recipe:', recipe.name || 'Unnamed recipe');
+        if (await isValidRecipe(recipe)) {
+            validRecipes.push(recipe);
+            console.debug(`Recipe "${recipe.name}" is valid`);
+        } else {
+            console.error(`Invalid recipe found:`, recipe);
+        }
+    }
+    console.debug(`Validated ${validRecipes.length} out of ${json.recipes.length} recipes`);
+    return validRecipes;
 }
 
 const defaultKeys = ['id', 'image', 'name', 'servings', 'ingredients', 'time', 'description', 'appliance', 'ustensils'];
 
-function isValidRecipe(recipe) {
-    return defaultKeys.every(async key => {
+async function isValidRecipe(recipe) {
+    for (const key of defaultKeys) {
+        console.debug(`Checking ${key}`);
         if (!Object.hasOwn(recipe, key) || recipe[key] == null || recipe[key] === '') {
             console.error(`Recipe is missing required key, or has null/empty value: ${key}`);
             return false;
         }
-        return await isValidProperty(key, recipe[key]);
-    });
+        if (!(await isValidProperty(key, recipe[key]))) {
+            console.error(`Invalid property: ${key}`);
+            return false;
+        }
+    }
+    return true;
 }
 
 async function isValidProperty(key, value) {
@@ -41,7 +57,7 @@ async function isValidProperty(key, value) {
         id: isValidID,
         image: isValidImage,
         name: isValidName,
-        serving: isValidServing,
+        servings: isValidServings,
         ingredients: isValidIngredients,
         time: isValidTime,
         description: isValidDescription,
@@ -49,7 +65,16 @@ async function isValidProperty(key, value) {
         ustensils: isValidUstensils
     };
 
-    return validators[key] ? await validators[key](value) : false;
+    if (!validators[key]) {
+        console.error(`No validator found for key: ${key}`);
+        return false;
+    }
+
+    const isValid = await validators[key](value);
+    if (!isValid) {
+        console.error(`Validation failed for ${key}: ${value}`);
+    }
+    return isValid;
 }
 
 function isValidID(id) {
@@ -90,9 +115,9 @@ function isValidName(name) {
     return true;
 }
 
-function isValidServing(serving) {
-    if (!Number.isInteger(Number(serving))) {
-        console.error(`Recipe serving: ${serving} is not a valid integer`);
+function isValidServings(servings) {
+    if (!Number.isInteger(Number(servings))) {
+        console.error(`Recipe serving: ${servings} is not a valid integer`);
         return false;
     }
     return true;
