@@ -106,4 +106,13 @@ export class Recipe {
         return container;
     }
 
+    isImageLoading(path) {
+        return new Promise((resolve) => {
+            let image = new Image();
+            image.src = `assets/images/${path}`;
+            image.onload = () => resolve(true);
+            image.onerror = () => resolve(false);
+        });
+    }
+
 }

@@ -1,4 +1,5 @@
 import { getRecipes } from './api/fetch_recipes.js';
+import { validateRecipes } from './api/validate_recipes.js';
 import { Recipe } from './template/recipes.js';
 
 function filterRecipes(recipes) {
@@ -25,10 +26,10 @@ function displayFilters(recipes) {
 }
 
 async function init() {
-    const recipes = await getRecipes();
-    const filteredRecipes = filterRecipes(recipes);
-    displayRecipes(filteredRecipes);
-    displayFilters(filteredRecipes);
+    const { recipes } = await getRecipes();
+    const validatedRecipes = validateRecipes(recipes);
+    displayRecipes(validatedRecipes);
+    displayFilters(validatedRecipes);
 }
 
 init();
@@ -39,6 +40,5 @@ searchbox.addEventListener('keyup', search);
 function search(event) {
     if (event.target.value.length > 2) {
         console.log(`search edited: ${event.target.value}`);
-        init();
     }
 }
