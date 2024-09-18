@@ -1,6 +1,6 @@
 import { getRecipes } from './api/fetch_recipes.js';
 import { validateRecipes } from './api/validate_recipes.js';
-import { Recipe } from './template/recipes.js';
+import { getRecipeDOM } from './template/recipes.js';
 
 function filterRecipes(recipes) {
     const filteredRecipes = [];
@@ -12,10 +12,9 @@ function filterRecipes(recipes) {
 
 function displayRecipes(recipes) {
     const container = document.querySelector('.cards');
-    recipes.forEach(recipe => {
-        const recipeTemplate = new Recipe(recipe);
-        container.appendChild(recipeTemplate.getRecipeDOM());
-    });
+    recipes.forEach(recipe =>
+        container.appendChild(getRecipeDOM(recipe))
+    );
 }
 
 function displayFilters(recipes) {

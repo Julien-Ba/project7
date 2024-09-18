@@ -1,118 +1,114 @@
-export class Recipe {
+export function getRecipeDOM(data) {
+    const description = data.description;
+    const image = data.image;
+    const ingredients = data.ingredients;
+    const name = data.name;
+    const time = data.time;
 
-    constructor(data) {
-        //this.id = data.id;
-        this.image = data.image;
-        this.name = data.name;
-        //this.serving = data.serving;
-        this.ingredients = data.ingredients;
-        this.time = data.time;
-        this.description = data.description;
-        //this.appliance = data.appliance;
-        //this.ustensils = data.ustensils;
-    }
+    const container = getRecipeContainer(name, image, time);
+    const subContainer = getRecipeSubContainer(name, description, ingredients);
+    container.appendChild(subContainer);
+    return container;
+}
 
-    getRecipeDOM() {
-        const container = document.createElement('article');
-        container.classList.add('card');
+function getRecipeContainer(name, image, time) {
+    const container = document.createElement('article');
+    container.classList.add('card');
+    container.appendChild(getRecipeImageDOM(image, name));
+    container.appendChild(getRecipeTimeDOM(time));
+    return container;
+}
 
-        container.appendChild(this.getRecipeImageDOM());
-        container.appendChild(this.getRecipeTimeDOM());
+function getRecipeSubContainer(name, description, ingredients) {
+    const subContainer = document.createElement('div');
+    subContainer.classList.add('card-content');
+    subContainer.appendChild(getRecipeNameDOM(name));
+    subContainer.appendChild(getRecipeDescriptionDOM(description));
+    subContainer.appendChild(getRecipeIngredientsDOM(ingredients));
+    return subContainer;
+}
 
-        const subContainer = document.createElement('div');
-        subContainer.classList.add('card-content');
-        container.appendChild(subContainer);
+function getRecipeImageDOM(image, name) {
+    const img = document.createElement('img');
+    img.src = `assets/images/${image}`;
+    img.alt = `Image of ${name}`;
+    img.loading = 'lazy';
+    img.classList.add('card-img');
+    return img;
+}
 
-        subContainer.appendChild(this.getRecipeNameDOM());
-        subContainer.appendChild(this.getRecipeDescriptionDOM());
-        subContainer.appendChild(this.getRecipeIngredientsDOM());
+function getRecipeTimeDOM(time) {
+    const span = document.createElement('span');
+    span.textContent = `${time}min`;
+    span.classList.add('card-time');
+    return span;
+}
 
-        return container;
-    }
+function getRecipeNameDOM(name) {
+    const h2 = document.createElement('h2');
+    h2.textContent = name;
+    h2.classList.add('card-title');
+    return h2;
+}
 
-    getRecipeImageDOM() {
-        const img = document.createElement('img');
-        img.src = `assets/images/${this.image}`;
-        img.alt = `Image of ${this.name}`;
-        img.loading = 'lazy';
-        img.classList.add('card-img');
-        return img;
-    }
+function getRecipeDescriptionDOM(description) {
+    const div = document.createElement('div');
+    div.classList.add('card-recipe');
 
-    getRecipeTimeDOM() {
-        const span = document.createElement('span');
-        span.textContent = `${this.time}min`;
-        span.classList.add('card-time');
-        return span;
-    }
+    const h3 = document.createElement('h3');
+    h3.textContent = 'RECETTE';
+    h3.classList.add('card-recipe-title');
 
-    getRecipeNameDOM() {
-        const h2 = document.createElement('h2');
-        h2.textContent = this.name;
-        h2.classList.add('card-title');
-        return h2;
-    }
+    const p = document.createElement('p');
+    p.textContent = description;
+    p.classList.add('card-recipe-description');
 
-    getRecipeDescriptionDOM() {
+    div.appendChild(h3);
+    div.appendChild(p);
+    return div;
+}
+
+function getRecipeIngredientsDOM(ingredients) {
+    const container = document.createElement('div');
+    container.classList.add('card-ingredients');
+
+    const h3 = document.createElement('h3');
+    h3.textContent = 'Ingrédients';
+    h3.classList.add('card-ingredients-title');
+    container.appendChild(h3);
+
+    const subContainer = document.createElement('div');
+    subContainer.classList.add('card-ingredients-container');
+    container.appendChild(subContainer);
+
+    let ingredientsDOM = [];
+    ingredients.forEach(ingredient => {
         const div = document.createElement('div');
-        div.classList.add('card-recipe');
+        div.classList.add('card-ingredients');
 
-        const h3 = document.createElement('h3');
-        h3.textContent = 'RECETTE';
-        h3.classList.add('card-recipe-title');
+        const h4 = document.createElement('h4');
+        h4.textContent = ingredient.ingredient;
+        h4.classList.add('card-ingredients-description');
 
         const p = document.createElement('p');
-        p.textContent = this.description;
-        p.classList.add('card-recipe-description');
+        p.textContent = ingredient.quantity;
+        if (ingredient.unit)
+            p.textContent += ingredient.unit;
+        p.classList.add('card-ingredients-quantity');
 
-        div.appendChild(h3);
+        div.appendChild(h4);
         div.appendChild(p);
-        return div;
-    }
+        ingredientsDOM.push(div);
+    });
+    ingredientsDOM.forEach(ingredient => subContainer.appendChild(ingredient));
+    return container;
+}
 
-    getRecipeIngredientsDOM() {
-        const container = document.createElement('div');
-        container.classList.add('card-ingredients');
-
-        const h3 = document.createElement('h3');
-        h3.textContent = 'Ingrédients';
-        h3.classList.add('card-ingredients-title');
-        container.appendChild(h3);
-
-        const subContainer = document.createElement('div');
-        subContainer.classList.add('card-ingredients-container');
-        container.appendChild(subContainer);
-
-        let ingredients = [];
-        this.ingredients.forEach(ingredient => {
-            const div = document.createElement('div');
-            div.classList.add('card-ingredients');
-
-            const h4 = document.createElement('h4');
-            h4.textContent = ingredient.ingredient;
-            h4.classList.add('card-ingredients-description');
-
-            const p = document.createElement('p');
-            p.textContent = ingredient.quantity;
-            if (ingredient.unit)
-                p.textContent += ingredient.unit;
-            p.classList.add('card-ingredients-quantity');
-
-            div.appendChild(h4);
-            div.appendChild(p);
-            ingredients.push(div);
-        });
-        ingredients.forEach(ingredient => subContainer.appendChild(ingredient));
-        return container;
-    }
-
-    isImageLoading(path) {
-        return new Promise((resolve) => {
-            let image = new Image();
-            image.src = `assets/images/${path}`;
-            image.onload = () => resolve(true);
-            image.onerror = () => resolve(false);
-        });
-    }
-
+function isImageLoading(path) {
+    return new Promise((resolve) => {
+        let image = new Image();
+        image.src = `assets/images/${path}`;
+        image.onload = () => resolve(true);
+        image.onerror = () => resolve(false);
+    });
 }
