@@ -70,3 +70,10 @@ function search(event) {
         console.log(`search edited: ${event.target.value}`);
     }
 }
+
+filterCategories.forEach(category => {
+    const container = document.querySelector(`.filters-${category}`);
+    container.addEventListener('click', event => {
+        event.target.dataset.expended = (event.target.dataset.expended === 'true') ? 'false' : 'true';
+    });
+});
