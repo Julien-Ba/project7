@@ -73,7 +73,7 @@ function search(event) {
 
 filterCategories.forEach(category => {
     const container = document.querySelector(`.filters-${category}`);
-    container.addEventListener('click', event => {
-        event.target.dataset.expended = (event.target.dataset.expended === 'true') ? 'false' : 'true';
-    });
+    container.addEventListener('click', () =>
+        container.dataset.expended = (container.dataset.expended === 'true') ? 'false' : 'true'
+    )
 });
