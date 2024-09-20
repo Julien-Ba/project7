@@ -3,6 +3,8 @@ import { validateRecipes } from './api/validate_recipes.js';
 import { getRecipeDOM } from './template/recipes.js';
 import { getDropdownsDOM } from './template/dropdowns.js';
 
+const filterCategories = ['ingredients', 'appliances', 'utensils'];
+
 function filterRecipes(recipes) {
     const filteredRecipes = [];
     recipes.forEach(recipe => {
@@ -13,6 +15,11 @@ function filterRecipes(recipes) {
 
 function displayRecipes(recipes) {
     const container = document.querySelector('.cards');
+
+    while (container.firstChild) {
+        container.firstChild.remove();
+    }
+
     recipes.forEach(recipe =>
         container.appendChild(getRecipeDOM(recipe))
     );
@@ -20,43 +27,30 @@ function displayRecipes(recipes) {
 
 function displayDropdowns(recipes) {
     const container = document.querySelector('.filters-lists');
-    const lists = {
-        ingredients: container.querySelector('.filters-ingredients'),
-        appliances: container.querySelector('.filters-appliances'),
-        utensils: container.querySelector('.filters-utensils')
-    };
+    const lists = Object.fromEntries(
+        filterCategories.map(category => [category, container.querySelector(`.filters-${category}`)])
+    );
 
-    Object.values(lists).forEach(clearListItems);
+    const addedItems = Object.fromEntries(
+        filterCategories.map(category => [category, new Set()])
+    );
 
-    const addedItems = {
-        ingredients: new Set(),
-        appliances: new Set(),
-        utensils: new Set()
-    };
+    filterCategories.forEach(category => {
+        const listElements = lists[category].querySelectorAll('li');
+        listElements.forEach(element => element.remove());
+    });
 
     recipes.forEach(recipe => {
         const dropdowns = getDropdownsDOM(recipe);
-        addFilterItems(dropdowns, lists, addedItems);
-    });
-}
-
-function addFilterItems(dropdowns, lists, addedItems) {
-    const categories = ['ingredients', 'appliances', 'utensils'];
-
-    Object.entries(dropdowns).forEach(([index, elements], categoryIndex) => {
-        const category = categories[categoryIndex];
-        elements.forEach(element => {
-            const textContent = element.textContent;
-            if (!addedItems[category].has(textContent)) {
-                addedItems[category].add(textContent);
-                lists[category].appendChild(element);
-            }
+        filterCategories.forEach(category => {
+            dropdowns[category].forEach(element => {
+                if (!addedItems[category].has(element)) {
+                    addedItems[category].add(element.textContent);
+                    lists[category].appendChild(element);
+                }
+            });
         });
     });
-}
-
-function clearListItems(list) {
-    list.querySelectorAll('li').forEach(li => li.remove());
 }
 
 async function init() {
