@@ -53,28 +53,26 @@
             }
         }
 
-        #submit {
+        .search-reset {
+            top: 1.5rem;
+            right: 5rem;
+        }
+
+        .search-submit {
             width: 3.25rem;
             height: 3.25rem;
-            position: absolute;
             right: 0;
             margin: calc((4.5rem - 3.25rem) / 2);
             background-color: utils.$clr-darker;
             @extend %border;
 
+            &::after {
+                color: utils.$clr-lighter;
+            }
+
             &:focus {
                 @extend %outline;
             }
-        }
-
-        .search-icon {
-            width: 3.25rem;
-            height: 3.25rem;
-            position: absolute;
-            right: 0;
-            margin: calc((4.5rem - 3.25rem) / 2);
-            text-align: center;
-            align-content: center;
         }
     }
 }

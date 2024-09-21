@@ -20,10 +20,11 @@
             <img src="assets/logo.svg" alt="logo les petits plats" class="header-logo">
             <h1 class="header-title">CHERCHEZ PARMI PLUS DE 1500 RECETTES
                 DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</h1>
-            <form method="get" action="#" class="header-search">
-                <input type="text" name="search" id="search" placeholder="Rechercher une recette, un ingrédient, ...">
-                <input type="submit" name="submit" id="submit" value="">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <form method="get" action="#" class="search-box header-search">
+                <input type="search" name="search" class="search-input" id="search"
+                    placeholder="Rechercher une recette, un ingrédient, ..." required>
+                <button class="search-reset" type="reset"></button>
+                <button class="search-submit" type="submit"></button>
             </form>
         </header>
         <main>
@@ -31,12 +32,29 @@
                 <div class="filters-lists">
                     <ul class="filters-ingredients">
                         <h3 class="filters-title">Ingrédients</h3>
+                        <form action="#" method="get" class="search-box search-filter">
+                            <input type="search" name="search-filter" class="search-input" id="search-ingredient"
+                                required>
+                            <button class="search-reset" type="reset"></button>
+                            <button class="search-submit" type="submit"></button>
+                        </form>
                     </ul>
                     <ul class="filters-appliances">
                         <h3 class="filters-title">Appareils</h3>
+                        <form action="#" method="get" class="search-box search-filter">
+                            <input type="search" name="search-filter" class="search-input" id="search-appliance"
+                                required>
+                            <button class="search-reset" type="reset"></button>
+                            <button class="search-submit" type="submit"></button>
+                        </form>
                     </ul>
                     <ul class="filters-utensils">
                         <h3 class="filters-title">Ustensiles</h3>
+                        <form action="#" method="get" class="search-box search-filter">
+                            <input type="search" name="search-filter" class="search-input" id="search-utensil" required>
+                            <button class="search-reset" type="reset"></button>
+                            <button class="search-submit" type="submit"></button>
+                        </form>
                     </ul>
                 </div>
                 <h3 class="recipe-count">0 recettes</h3>

@@ -1,0 +1,45 @@
+@use "../utils";
+
+.search-box {
+    position: relative;
+
+    .search-input::-webkit-search-cancel-button {
+        display: none;
+    }
+
+    .search-reset {
+        display: none;
+        position: absolute;
+        border: none;
+        background-color: inherit;
+
+        &::after {
+            content: "X";
+            font-family: "FontAwesome";
+            color: utils.$clr-dark;
+        }
+    }
+
+    .search-input:valid ~ .search-reset {
+        display: block;
+    }
+
+    .search-submit {
+        position: absolute;
+
+        &::after {
+            content: "\f002";
+            font-family: "FontAwesome";
+        }
+    }
+}
+
+//.search-icon {
+//    width: 3.25rem;
+//    height: 3.25rem;
+//    position: absolute;
+//    right: 0;
+//    margin: calc((4.5rem - 3.25rem) / 2);
+//    text-align: center;
+//    align-content: center;
+//}
