@@ -44,7 +44,7 @@ function displayDropdowns(recipes) {
         const dropdowns = getDropdownsDOM(recipe);
         filterCategories.forEach(category => {
             dropdowns[category].forEach(element => {
-                if (!addedItems[category].has(element)) {
+                if (!addedItems[category].has(element.textContent)) {
                     addedItems[category].add(element.textContent);
                     lists[category].appendChild(element);
                 }
