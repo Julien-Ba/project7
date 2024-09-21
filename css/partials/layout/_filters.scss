@@ -4,19 +4,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-block-end: 2rem;
+    height: 3.5rem;
+    margin-block-end: 3rem;
 
     .filters-lists {
-        display: flex;
-        gap: 3rem;
+        position: relative;
+        height: 3.5rem;
+        width: 42rem;
+
+        @for $i from 1 through 3 {
+            :nth-child(#{$i}) {
+                left: ($i - 1) * 14rem;
+            }
+        }
 
         ul {
+            position: absolute;
+            z-index: 10;
+            top: 0;
             width: 12.2rem;
-            height: 3.5rem;
             padding: 1rem;
             background-color: utils.$clr-lighter;
             @extend %border;
             align-content: center;
+        }
+
+        li {
+            display: none;
         }
     }
 
@@ -28,5 +42,11 @@
             content: "\f078";
             font-family: "FontAwesome";
         }
+    }
+}
+
+.filters-lists ul[data-expended="true"] {
+    li {
+        display: block;
     }
 }

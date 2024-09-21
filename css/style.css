@@ -132,6 +132,13 @@ video {
   color: rgb(255, 255, 255);
 }
 
+.filters-lists .filters-title {
+  font-weight: 500;
+}
+.filters-lists li {
+  font-size: 0.875rem;
+}
+
 .recipe-count {
   font-family: "Anton", sans-serif;
   font-size: 1.3125rem;
@@ -175,7 +182,7 @@ video {
 }
 
 main {
-  padding: 1rem 4rem;
+  padding: 2rem 6rem;
   background-color: rgb(237, 237, 237);
 }
 
@@ -247,18 +254,34 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-block-end: 2rem;
+  height: 3.5rem;
+  margin-block-end: 3rem;
 }
 .filters-container .filters-lists {
-  display: flex;
-  gap: 3rem;
+  position: relative;
+  height: 3.5rem;
+  width: 42rem;
+}
+.filters-container .filters-lists :nth-child(1) {
+  left: 0rem;
+}
+.filters-container .filters-lists :nth-child(2) {
+  left: 14rem;
+}
+.filters-container .filters-lists :nth-child(3) {
+  left: 28rem;
 }
 .filters-container .filters-lists ul {
+  position: absolute;
+  z-index: 10;
+  top: 0;
   width: 12.2rem;
-  height: 3.5rem;
   padding: 1rem;
   background-color: rgb(255, 255, 255);
   align-content: center;
+}
+.filters-container .filters-lists li {
+  display: none;
 }
 .filters-container .filters-title {
   display: flex;
@@ -269,14 +292,18 @@ main {
   font-family: "FontAwesome";
 }
 
+.filters-lists ul[data-expended=true] li {
+  display: block;
+}
+
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 23.75rem);
   gap: 3rem 1rem;
+  justify-content: space-between;
 }
 
 .card {
-  width: 23.75rem;
   height: 45.7rem;
   background-color: rgb(255, 255, 255);
   display: grid;
