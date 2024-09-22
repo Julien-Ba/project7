@@ -24,7 +24,7 @@
         z-index: 10;
         top: 0;
         width: 12.2rem;
-        max-height: 32rem;
+        max-height: 21.5rem;
         overflow: auto;
         background-color: utils.$clr-lighter;
         @extend %border;
@@ -94,7 +94,7 @@ ul[data-expended="true"] {
 }
 
 .filters-lists ul[data-expended="true"] {
-    border: 2px solid utils.$clr-medium;
+    box-shadow: 1px 1px 10px rgba(200, 200, 200, 60);
 
     .search-filter,
     li {

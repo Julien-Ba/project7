@@ -304,7 +304,7 @@ main {
   z-index: 10;
   top: 0;
   width: 12.2rem;
-  max-height: 32rem;
+  max-height: 21.5rem;
   overflow: auto;
   background-color: rgb(255, 255, 255);
   align-content: center;
@@ -362,7 +362,7 @@ ul[data-expended=true] .filters-title::after {
 }
 
 .filters-lists ul[data-expended=true] {
-  border: 2px solid rgb(198, 198, 198);
+  box-shadow: 1px 1px 10px rgb(200, 200, 200);
 }
 .filters-lists ul[data-expended=true] .search-filter,
 .filters-lists ul[data-expended=true] li {
