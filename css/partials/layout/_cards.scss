@@ -12,9 +12,9 @@
     background-color: utils.$clr-lighter;
     @extend %border;
     display: grid;
-    grid-template-rows: 34.6% 1fr;
-    overflow: auto;
+    grid-template-rows: 15.8rem 29.9rem;
     position: relative;
+    overflow: hidden;
 
     &-img {
         width: 100%;
@@ -34,22 +34,32 @@
     &-content {
         padding: 1rem;
         display: grid;
-        grid-template-rows: 3rem auto auto;
+        grid-template-rows: 3rem 7.5rem 13.1rem;
         align-items: center;
-        gap: 1rem;
-        overflow: auto;
+        gap: 1.5rem;
+    }
+
+    &-recipe {
+        height: 100%;
+        overflow-y: auto;
+
+        &-title {
+            margin-block-end: 1rem;
+        }
     }
 
     &-ingredients {
+        height: 100%;
+        overflow-y: auto;
+
         &-title {
-            grid-column: span 2;
-            margin-block: 0.5rem;
+            margin-block-end: 1rem;
         }
 
         &-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
+            gap: 1rem;
         }
     }
 }
