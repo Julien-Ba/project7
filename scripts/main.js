@@ -53,11 +53,19 @@ function displayDropdowns(recipes) {
     });
 }
 
+function displayRecipeCount(recipes) {
+    const countElement = document.querySelector('.recipe-count');
+    let count = 0;
+    recipes.forEach(() => count += 1);
+    countElement.textContent = `${count} recettes`;
+}
+
 async function init() {
     const { recipes } = await getRecipes();
     const validatedRecipes = validateRecipes(recipes);
     displayRecipes(validatedRecipes);
     displayDropdowns(validatedRecipes);
+    displayRecipeCount(validatedRecipes);
 }
 
 init();
