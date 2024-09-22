@@ -26,9 +26,8 @@ function displayRecipes(recipes) {
 }
 
 function displayDropdowns(recipes) {
-    const container = document.querySelector('.filters-lists');
     const lists = Object.fromEntries(
-        filterCategories.map(category => [category, container.querySelector(`.filters-${category}`)])
+        filterCategories.map(category => [category, document.querySelector(`.filters-${category}-wrapper`)])
     );
 
     const addedItems = Object.fromEntries(
@@ -44,8 +43,8 @@ function displayDropdowns(recipes) {
         const dropdowns = getDropdownsDOM(recipe);
         filterCategories.forEach(category => {
             dropdowns[category].forEach(element => {
-                if (!addedItems[category].has(element.textContent)) {
-                    addedItems[category].add(element.textContent);
+                if (!addedItems[category].has(element.textContent.trim().toLowerCase())) {
+                    addedItems[category].add(element.textContent.trim().toLowerCase());
                     lists[category].appendChild(element);
                 }
             });
