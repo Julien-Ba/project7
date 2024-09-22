@@ -49,6 +49,12 @@
     }
 }
 
+ul[data-expended="true"] {
+    .filters-title::after {
+        content: "\f077";
+    }
+}
+
 .search-filter {
     display: none;
     margin-block: 0.5rem;
