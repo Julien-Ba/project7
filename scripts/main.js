@@ -77,3 +77,17 @@ filterCategories.forEach(category => {
         container.dataset.expended = (container.dataset.expended === 'true') ? 'false' : 'true'
     )
 });
+
+const body = document.querySelector('body');
+body.addEventListener('click', closeDropdown);
+
+function closeDropdown(event) {
+    const containers = document.querySelectorAll('.filters-lists > ul');
+    containers.forEach(container => {
+        if (container.dataset.expended !== 'true')
+            return;
+        if (event.target === container || container.contains(event.target))
+            return;
+        container.dataset.expended = 'false';
+    });
+}
