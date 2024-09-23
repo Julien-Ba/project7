@@ -1,3 +1,5 @@
+import { capitalizeTitleCase } from "../utils/string.js";
+
 export function getRecipeDOM(data) {
     const description = data.description;
     const image = data.image;
@@ -46,7 +48,7 @@ function getRecipeTimeDOM(time) {
 
 function getRecipeNameDOM(name) {
     const h2 = document.createElement('h2');
-    h2.textContent = name;
+    h2.textContent = capitalizeTitleCase(name);
     h2.classList.add('card-title');
     return h2;
 }
