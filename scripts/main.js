@@ -31,3 +31,7 @@ filterCategories.forEach(category => {
 });
 
 document.body.addEventListener('click', closeDropdown);
+
+document.addEventListener('keydown', event => {
+    closeDropdown(event);
+});
