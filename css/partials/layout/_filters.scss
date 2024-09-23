@@ -53,15 +53,21 @@
     gap: 1rem;
 
     [class$="wrapper"] {
-        height: 10.5rem;
+        height: 11rem;
         overflow-y: auto;
         display: none;
         flex-direction: column;
+        gap: 0.25rem;
         margin-block-end: 0.5rem;
+    }
+
+    li {
+        padding-block: 0.125rem;
+        cursor: pointer;
     }
 }
 
-ul[data-expended="true"] {
+ul[data-expanded="true"] {
     .filters-title::after {
         content: "\f077";
     }
@@ -100,7 +106,7 @@ ul[data-expended="true"] {
     }
 }
 
-.filters-lists ul[data-expended="true"] {
+.filters-lists ul[data-expanded="true"] {
     box-shadow: 1px 1px 10px rgba(200, 200, 200, 60);
 
     .search-filter,
