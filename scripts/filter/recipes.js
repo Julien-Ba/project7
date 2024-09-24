@@ -1,9 +1,27 @@
+import { allDropdowns, allRecipes, filteredRecipes } from "../main.js";
+import { displayDropdowns, displayRecipes } from "../utils/dom_mutation.js";
 import { cleanString } from "../utils/string.js";
 
-export function filterRecipes(str, recipes) {
+export function searchInRecipes(event) {
+    const searchTerm = event.target.value;
+
+    filteredRecipes.length = 0;
+    const matchingRecipes = searchTerm.length > 2 ? filterRecipes(searchTerm, allRecipes) : allRecipes;
+    filteredRecipes.push(...matchingRecipes);
+    displayRecipes(filteredRecipes, searchTerm);
+
+    for (const key of Object.getOwnPropertyNames(allDropdowns)) {
+        delete allDropdowns[key];
+    }
+    const matchingDropdowns = displayDropdowns(filteredRecipes);
+    for (const key of Object.getOwnPropertyNames(matchingDropdowns)) {
+        allDropdowns[key] = matchingDropdowns[key];
+    }
+}
+
+function filterRecipes(str, recipes) {
     const matchingRecipes = [];
     recipes.forEach(recipe => {
-        //console.debug(`checking recipe: ${recipe.name}`);
         if (hasMatchingName(str, recipe.name)
             || hasMatchingIngredients(str, recipe.ingredients)
             || hasMatchingAppliance(str, recipe.appliance)
@@ -26,5 +44,5 @@ function hasMatchingAppliance(str, appliance) {
 }
 
 function hasMatchingUtensils(str, utensils) {
-    utensils.some(utensil => cleanString(utensil).includes(str));
+    return utensils.some(utensil => cleanString(utensil).includes(str));
 }

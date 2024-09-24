@@ -1,3 +1,4 @@
+import { filterCategories } from '../main.js';
 import { getDropdownsDOM } from '../template/dropdowns.js';
 import { getRecipeDOM } from '../template/recipes.js';
 import { cleanString } from './string.js';
@@ -59,7 +60,7 @@ export function closeDropdown(event) {
 * Displays dropdown menus for each filter category
 * @param {string[]} filterCategories - Array of filter category names
 * @param {Object[]} recipes - Array of recipe objects
-* @returns {void}
+* @returns {Object} Object with the categories Set
 
 * called by main init and event
 
@@ -74,7 +75,7 @@ export function closeDropdown(event) {
 * append to the appropriate dropdown category
 */
 
-export function displayDropdowns(filterCategories, recipes) {
+export function displayDropdowns(recipes) {
     const lists = Object.fromEntries(
         filterCategories.map(category => [category, document.querySelector(`.filters-${category}-wrapper`)])
     );
@@ -99,6 +100,19 @@ export function displayDropdowns(filterCategories, recipes) {
             });
         });
     });
+    return addedItems;
+}
+
+export function editDropdowns(category, tags) {
+    const container = document.querySelector(`.filters-${category}-wrapper`);
+    while (container.firstChild) {
+        container.firstChild.remove();
+    }
+    tags.forEach(tag => {
+        const li = document.createElement('li');
+        li.textContent = tag;
+        container.appendChild(li)
+    });
 }
 
 
@@ -106,7 +120,7 @@ export function displayDropdowns(filterCategories, recipes) {
 /**
 * display recipes card
 * @param {Object[]} recipes - Array of recipe objects
-* @returns {void}
+* @returns {Object[]} return the same argument to keep in memory for later
 * 
 * called by main init and event
 * clear old card recipes
@@ -116,11 +130,18 @@ export function displayDropdowns(filterCategories, recipes) {
 * call the counter
 */
 
-export function displayRecipes(recipes) {
+export function displayRecipes(recipes, searchTerm = '') {
     const container = document.querySelector('.cards');
 
     while (container.firstChild) {
         container.firstChild.remove();
+    }
+
+    const noResultsMessage = document.querySelector('.no-results-message');
+    noResultsMessage.style.display = 'none';
+    if (recipes.length === 0) {
+        noResultsMessage.textContent = `Aucune recette ne contient ‘${searchTerm}’ vous pouvez chercher «tarte aux pommes », « poisson », etc. `;
+        noResultsMessage.style.display = 'block';
     }
 
     recipes.forEach(recipe => {
@@ -128,6 +149,8 @@ export function displayRecipes(recipes) {
     });
 
     displayRecipeCount(recipes);
+
+    return recipes;
 }
 
 
