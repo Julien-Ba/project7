@@ -2,7 +2,7 @@ import { getRecipes } from './api/fetch_recipes.js';
 import { validateRecipes } from './api/validate_recipes.js';
 import { searchInDropdowns } from './filter/dropdowns.js';
 import { searchInRecipes } from './filter/recipes.js';
-import { closeDropdown, displayDropdowns, displayRecipes, toggleDropdown } from './utils/dom_mutation.js';
+import { closeDropdown, displayDropdowns, displayDropdownTag, displayRecipes, removeDropdownTag, toggleDropdown } from './utils/dom_mutation.js';
 
 
 
@@ -34,8 +34,11 @@ init();
 
 
 // main searchbox
-const searchbox = document.querySelector('#search');
-searchbox.addEventListener('keyup', searchInRecipes);
+const searchForm = document.querySelector('.header-search');
+searchForm.addEventListener('reset', searchInRecipes);
+
+const searchInput = document.querySelector('#search');
+searchInput.addEventListener('keyup', searchInRecipes);
 
 
 // open/close dropdowns
@@ -53,6 +56,19 @@ document.addEventListener('keydown', event => {
 
 // dropdowns searboxes
 filterCategories.forEach(category => {
-    const searchbox = document.querySelector(`#search-${category}`);
-    searchbox.addEventListener('keyup', event => searchInDropdowns(event, category));
+    const searchForm = document.querySelector(`#search-filter-${category}`);
+    searchForm.addEventListener('reset', event => searchInDropdowns(event, category));
+
+    const searchInput = document.querySelector(`#search-${category}`);
+    searchInput.addEventListener('keyup', event => searchInDropdowns(event, category));
+});
+
+
+// dropdowns tags
+filterCategories.forEach(category => {
+    const listContainer = document.querySelector(`.filters-${category}-list`);
+    listContainer.addEventListener('click', event => displayDropdownTag(category, event));
+
+    const selectedContainer = document.querySelector(`.filters-${category}-selected`);
+    selectedContainer.addEventListener('click', event => removeDropdownTag(category, event));
 });

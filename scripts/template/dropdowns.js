@@ -19,6 +19,7 @@ function getIngredientsDOM(ingredients) {
     ingredients.forEach(ingredient => {
         const li = document.createElement('li');
         li.textContent = ingredient.ingredient;
+        li.tabIndex = 0;
         ingredientsDOM.push(li);
     });
     return ingredientsDOM;
@@ -27,6 +28,7 @@ function getIngredientsDOM(ingredients) {
 function getApplianceDOM(appliance) {
     const li = document.createElement('li');
     li.textContent = appliance;
+    li.tabIndex = 0;
     return [li];
 }
 
@@ -35,6 +37,7 @@ function getUtensilsDOM(utensils) {
     utensils.forEach(utensil => {
         const li = document.createElement('li');
         li.textContent = utensil;
+        li.tabIndex = 0;
         utensilsDOM.push(li);
     });
     return utensilsDOM;

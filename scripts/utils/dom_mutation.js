@@ -1,6 +1,7 @@
 import { filterCategories } from '../main.js';
 import { getDropdownsDOM } from '../template/dropdowns.js';
 import { getRecipeDOM } from '../template/recipes.js';
+import { getDropdownTagDOM } from '../template/tag.js';
 import { cleanString } from './string.js';
 
 
@@ -35,7 +36,7 @@ export function toggleDropdown(container) {
 */
 
 export function closeDropdown(event) {
-    const containers = document.querySelectorAll('.filters-lists > ul');
+    const containers = document.querySelectorAll('.filters-lists [data-expanded="true"]');
 
     if (event.type === 'click') {
         containers.forEach(container => {
@@ -77,7 +78,7 @@ export function closeDropdown(event) {
 
 export function displayDropdowns(recipes) {
     const lists = Object.fromEntries(
-        filterCategories.map(category => [category, document.querySelector(`.filters-${category}-wrapper`)])
+        filterCategories.map(category => [category, document.querySelector(`.filters-${category}-list`)])
     );
 
     const addedItems = Object.fromEntries(
@@ -103,16 +104,65 @@ export function displayDropdowns(recipes) {
     return addedItems;
 }
 
-export function editDropdowns(category, tags) {
-    const container = document.querySelector(`.filters-${category}-wrapper`);
-    while (container.firstChild) {
-        container.firstChild.remove();
-    }
-    tags.forEach(tag => {
-        const li = document.createElement('li');
-        li.textContent = tag;
-        container.appendChild(li)
+export function editDropdowns(category, filteredTags) {
+    const container = document.querySelector(`.filters-${category}-list`);
+    const allTags = Array.from(container.children);
+
+    // Hide all tags first
+    allTags.forEach(tag => {
+        tag.style.display = 'none';
     });
+
+    // Show the filtered tags
+    filteredTags.forEach(filteredTag => {
+        const matchingTag = allTags.find(tag => tag.textContent === filteredTag);
+        if (matchingTag) {
+            matchingTag.style.display = 'block';
+        }
+    });
+}
+
+export function displayDropdownTag(category, event) {
+    const selectedContainer = document.querySelector(`.filters-${category}-selected`);
+    const tag = event.target.textContent;
+
+    // Ensure the container is visible
+    if (selectedContainer.style.display !== 'flex') {
+        selectedContainer.style.display = 'flex';
+    }
+
+    // Check if the tag already exists in the container
+    const existingTag = Array.from(selectedContainer.children).find(child => child.textContent === tag);
+    if (existingTag) {
+        existingTag.style.display = 'block';
+    } else {
+        const tagDOM = getDropdownTagDOM(tag);
+        selectedContainer.appendChild(tagDOM);
+    }
+
+    // Remove the tag from the unselected list
+    event.target.style.display = 'none';
+}
+
+export function removeDropdownTag(category, event) {
+    // Hide tag to avoid DOM refreshing
+    const tagDOM = event.target;
+    tagDOM.style.display = 'none';
+
+    // Check if all sibling tags are hidden
+    const siblings = Array.from(tagDOM.parentElement.children);
+    const allSiblingsHidden = siblings.every(sibling => sibling.style.display === 'none');
+
+    // If all sibling tags are hidden, hide the container
+    if (allSiblingsHidden) {
+        tagDOM.parentElement.style.display = 'none';
+    }
+
+    // Reset the tag in the unselected list
+    const listContainer = document.querySelector(`.filters-${category}-list`);
+    const unselectedTag = Array.from(listContainer.children).find(child => child.textContent === tagDOM.textContent);
+    unselectedTag.style.display = 'block';
+
 }
 
 

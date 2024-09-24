@@ -10,7 +10,7 @@ export function searchInDropdowns(event, category) {
     for (const key of Object.getOwnPropertyNames(allDropdowns)) {
         filteredDropdowns[key] = allDropdowns[key];
     }
-    const matchingDropdowns = searchTerm.length > 2 ? filterDropdowns(searchTerm, category) : Array.from(allDropdowns[category]);
+    const matchingDropdowns = (searchTerm && searchTerm.length > 2) ? filterDropdowns(searchTerm, category) : Array.from(allDropdowns[category]);
     return editDropdowns(category, matchingDropdowns);
 }
 

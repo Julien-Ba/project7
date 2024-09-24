@@ -30,45 +30,58 @@
         <main>
             <section class="filters-container">
                 <div class="filters-lists">
-                    <ul class="filters-ingredients">
-                        <h3 class="filters-title">Ingrédients</h3>
-                        <div class="filters-content">
-                            <form action="#" method="get" class="search-box search-filter">
-                                <input type="search" name="search-filter" class="search-input" id="search-ingredients"
-                                    required>
-                                <button class="search-reset" type="reset"></button>
-                                <button class="search-submit" type="submit"></button>
-                            </form>
-                            <div class="filters-ingredients-wrapper"></div>
+                    <div class="filters-ingredients-wrapper">
+                        <div class="filters-ingredients">
+                            <h3 class="filters-title">Ingrédients</h3>
+                            <div class="filters-content">
+                                <form action="#" method="get" class="search-box search-filter"
+                                    id="search-filter-ingredients">
+                                    <input type="search" name="search-filter" class="search-input"
+                                        id="search-ingredients" required>
+                                    <button class="search-reset" type="reset"></button>
+                                    <button class="search-submit" type="submit"></button>
+                                </form>
+                                <ul class="filters-ingredients-selected"></ul>
+                                <ul class="filters-ingredients-list"></ul>
+                            </div>
                         </div>
-                    </ul>
-                    <ul class="filters-appliances">
-                        <h3 class="filters-title">Appareils</h3>
-                        <div class="filters-content">
-                            <form action="#" method="get" class="search-box search-filter">
-                                <input type="search" name="search-filter" class="search-input" id="search-appliances"
-                                    required>
-                                <button class="search-reset" type="reset"></button>
-                                <button class="search-submit" type="submit"></button>
-                            </form>
-                            <div class="filters-appliances-wrapper"></div>
+                    </div>
+                    <div class="filters-appliances-wrapper">
+                        <div class="filters-appliances">
+                            <h3 class="filters-title">Appareils</h3>
+                            <div class="filters-content">
+                                <form action="#" method="get" class="search-box search-filter"
+                                    id="search-filter-appliances">
+                                    <input type="search" name="search-filter" class="search-input"
+                                        id="search-appliances" required>
+                                    <button class="search-reset" type="reset"></button>
+                                    <button class="search-submit" type="submit"></button>
+                                </form>
+                                <ul class="filters-appliances-selected"></ul>
+                                <ul class="filters-appliances-list"></ul>
+                            </div>
                         </div>
-                    </ul>
-                    <ul class="filters-utensils">
-                        <h3 class="filters-title">Ustensiles</h3>
-                        <div class="filters-content">
-                            <form action="#" method="get" class="search-box search-filter">
-                                <input type="search" name="search-filter" class="search-input" id="search-utensils"
-                                    required>
-                                <button class="search-reset" type="reset"></button>
-                                <button class="search-submit" type="submit"></button>
-                            </form>
-                            <div class="filters-utensils-wrapper"></div>
+                    </div>
+                    <div class="filters-utensils-wrapper">
+                        <div class="filters-utensils">
+                            <h3 class="filters-title">Ustensiles</h3>
+                            <div class="filters-content">
+                                <form action="#" method="get" class="search-box search-filter"
+                                    id="search-filter-utensils">
+                                    <input type="search" name="search-filter" class="search-input" id="search-utensils"
+                                        required>
+                                    <button class="search-reset" type="reset"></button>
+                                    <button class="search-submit" type="submit"></button>
+                                </form>
+                                <ul class="filters-utensils-selected"></ul>
+                                <ul class="filters-utensils-list"></ul>
+                            </div>
                         </div>
-                    </ul>
+                    </div>
                 </div>
                 <h3 class="recipe-count">0 recettes</h3>
             </section>
+            <section class="tags"></section>
             <section class="cards"></section>
             <p class="no-results-message"></p>
         </main>

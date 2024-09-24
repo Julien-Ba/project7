@@ -9,28 +9,22 @@
 }
 
 .filters-lists {
-    position: relative;
     height: 3.5rem;
     width: 42rem;
+    display: flex;
+    gap: 2rem;
 
-    @for $i from 1 through 3 {
-        ul:nth-child(#{$i}) {
-            left: ($i - 1) * 14rem;
-        }
-    }
-
-    ul {
-        position: absolute;
-        z-index: 10;
-        top: 0;
+    > [class$="wrapper"] {
         width: 12.2rem;
-        max-height: 21.5rem;
-        background-color: utils.$clr-lighter;
-        @extend %border;
-        align-content: center;
+        position: relative;
 
-        > :not(:first-child) {
-            padding-inline: 1rem;
+        > [class^="filters"] {
+            width: 100%;
+            position: absolute;
+            z-index: 10;
+            background-color: utils.$clr-lighter;
+            @extend %border;
+            align-content: center;
         }
     }
 }
@@ -48,35 +42,38 @@
 }
 
 .filters-content {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 1rem;
 
-    [class$="wrapper"] {
-        height: fit-content;
-        min-height: 2rem;
-        max-height: 11rem;
-        overflow-y: auto;
+    > [class$="selected"] {
         display: none;
         flex-direction: column;
         gap: 0.25rem;
-        margin-block-end: 0.5rem;
+
+        .dropdown-tag {
+            background-color: utils.$clr-primary;
+        }
+    }
+
+    > [class$="list"] {
+        height: fit-content;
+        min-height: 2rem;
+        max-height: 16rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        overflow-y: auto;
     }
 
     li {
-        padding-block: 0.125rem;
+        padding: 0.5rem 1rem;
         cursor: pointer;
     }
 }
 
-ul[data-expanded="true"] {
-    .filters-title::after {
-        content: "\f077";
-    }
-}
-
 .search-filter {
-    display: none;
+    margin-inline: 1rem;
 
     .search-input {
         width: 100%;
@@ -108,11 +105,14 @@ ul[data-expanded="true"] {
     }
 }
 
-.filters-lists ul[data-expanded="true"] {
+[class^="filters"][data-expanded="true"] {
     box-shadow: 1px 1px 10px rgba(200, 200, 200, 60);
 
-    .search-filter,
-    [class$="wrapper"] {
+    .filters-title::after {
+        content: "\f077";
+    }
+
+    .filters-content {
         display: flex;
     }
 }

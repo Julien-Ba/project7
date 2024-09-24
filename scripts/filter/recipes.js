@@ -4,9 +4,8 @@ import { cleanString } from "../utils/string.js";
 
 export function searchInRecipes(event) {
     const searchTerm = event.target.value;
-
+    const matchingRecipes = (searchTerm && searchTerm.length > 2) ? filterRecipes(searchTerm, allRecipes) : allRecipes;
     filteredRecipes.length = 0;
-    const matchingRecipes = searchTerm.length > 2 ? filterRecipes(searchTerm, allRecipes) : allRecipes;
     filteredRecipes.push(...matchingRecipes);
     displayRecipes(filteredRecipes, searchTerm);
 
