@@ -42,3 +42,14 @@ function getUtensilsDOM(utensils) {
     });
     return utensilsDOM;
 }
+
+export function getDropdownDOM(tags) {
+    const elements = [];
+    tags.forEach(tag => {
+        const li = document.createElement('li');
+        li.textContent = tag;
+        li.tabIndex = 0;
+        elements.push(li);
+    });
+    return elements;
+}

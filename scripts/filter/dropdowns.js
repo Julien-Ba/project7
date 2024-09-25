@@ -15,5 +15,7 @@ export function searchInDropdowns(event, category) {
 }
 
 function filterDropdowns(searchTerm, category) {
-    return Array.from(filteredDropdowns[category]).filter(dropdown => cleanString(dropdown).includes(searchTerm));
+    return Array.from(filteredDropdowns[category]).filter(dropdown =>
+        cleanString(dropdown).includes(cleanString(searchTerm))
+    );
 }

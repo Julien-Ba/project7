@@ -1,5 +1,5 @@
 import { filterCategories } from '../main.js';
-import { getDropdownsDOM } from '../template/dropdowns.js';
+import { getDropdownDOM, getDropdownsDOM } from '../template/dropdowns.js';
 import { getRecipeDOM } from '../template/recipes.js';
 import { getDropdownTagDOM } from '../template/tag.js';
 import { cleanString } from './string.js';
@@ -106,63 +106,50 @@ export function displayDropdowns(recipes) {
 
 export function editDropdowns(category, filteredTags) {
     const container = document.querySelector(`.filters-${category}-list`);
-    const allTags = Array.from(container.children);
 
-    // Hide all tags first
-    allTags.forEach(tag => {
-        tag.style.display = 'none';
-    });
+    while (container.firstChild) {
+        container.firstChild.remove();
+    }
 
-    // Show the filtered tags
-    filteredTags.forEach(filteredTag => {
-        const matchingTag = allTags.find(tag => tag.textContent === filteredTag);
-        if (matchingTag) {
-            matchingTag.style.display = 'block';
-        }
-    });
+    const filteredTagsDOM = getDropdownDOM(filteredTags);
+    filteredTagsDOM.forEach(filteredTagDOM => container.appendChild(filteredTagDOM));
 }
 
 export function displayDropdownTag(category, event) {
     const selectedContainer = document.querySelector(`.filters-${category}-selected`);
-    const tag = event.target.textContent;
+    const tagDOM = event.target;
+    const tag = tagDOM.textContent;
+
+    // Remove the tag from the unselected list
+    tagDOM.remove();
 
     // Ensure the container is visible
     if (selectedContainer.style.display !== 'flex') {
         selectedContainer.style.display = 'flex';
     }
 
-    // Check if the tag already exists in the container
-    const existingTag = Array.from(selectedContainer.children).find(child => child.textContent === tag);
-    if (existingTag) {
-        existingTag.style.display = 'block';
-    } else {
-        const tagDOM = getDropdownTagDOM(tag);
-        selectedContainer.appendChild(tagDOM);
-    }
-
-    // Remove the tag from the unselected list
-    event.target.style.display = 'none';
+    // Create a new element and append to the selected list
+    const newTagDOM = getDropdownTagDOM(tag);
+    selectedContainer.insertAdjacentElement('afterbegin', newTagDOM);
 }
 
 export function removeDropdownTag(category, event) {
-    // Hide tag to avoid DOM refreshing
     const tagDOM = event.target;
-    tagDOM.style.display = 'none';
+    const tag = tagDOM.textContent;
+    const container = tagDOM.parentElement;
 
-    // Check if all sibling tags are hidden
-    const siblings = Array.from(tagDOM.parentElement.children);
-    const allSiblingsHidden = siblings.every(sibling => sibling.style.display === 'none');
+    // Remove the element from the selected list
+    tagDOM.remove();
 
-    // If all sibling tags are hidden, hide the container
-    if (allSiblingsHidden) {
-        tagDOM.parentElement.style.display = 'none';
+    // If no sibling tags, hide the container
+    if (container.children.length < 1) {
+        container.style.display = 'none';
     }
 
-    // Reset the tag in the unselected list
+    // Create a new element and append to the unselected list
     const listContainer = document.querySelector(`.filters-${category}-list`);
-    const unselectedTag = Array.from(listContainer.children).find(child => child.textContent === tagDOM.textContent);
-    unselectedTag.style.display = 'block';
-
+    const unselectedTagDOM = getDropdownDOM([tag])[0];
+    listContainer.insertAdjacentElement('afterbegin', unselectedTagDOM);
 }
 
 
