@@ -1,0 +1,71 @@
+import { capitalizeTitleCase } from '../utils/string.js';
+import { initClickEvent, initKeydownEvent, initKeyupEvent, initResetEvent } from './event.js';
+import { displayDropdown } from './mutation.js';
+
+
+
+/**
+ * Object to inform the number of dropdowns and their names
+ * key: normalized name used to create classes and such
+ * value: name to display
+ */
+
+export const dropdownCategories = {
+    ingredients: 'Ingrédients',
+    appliances: 'Appareils',
+    utensils: 'Ustensiles'
+};
+
+export const dropdownElements = {};
+export const dropdownFilterTags = {};
+
+
+
+/**
+ * Init Module
+ * @param {Object[]} validatedRecipes 
+ */
+
+export function dropdown(data) {
+    Object.assign(dropdownElements, getDropdownElements(data));
+    displayDropdown(dropdownElements);
+
+    initEventListeners();
+}
+
+function initEventListeners() {
+    initClickEvent();
+    initKeydownEvent();
+    initKeyupEvent();
+    initResetEvent();
+}
+
+
+
+/**
+ * Extracts unique dropdown elements from recipe data
+ * @param {Object[]} data - Array of recipe objects
+ * @returns {Object[]} dropdownElements - Array of filter category objects populated
+ */
+
+export function getDropdownElements(data) {
+    const dropdownElements = {};
+    for (const category of Object.getOwnPropertyNames(dropdownCategories)) {
+        const set = new Set();
+
+        data.forEach(recipe => {
+            const categoryData = recipe[category];
+
+            if (Array.isArray(categoryData)) {
+                categoryData.forEach(element => {
+                    const name = element.ingredient || element;
+                    set.add(name);
+                });
+            } else if (categoryData) {
+                set.add(categoryData);
+            }
+        });
+        dropdownElements[category] = Array.from(set).map(capitalizeTitleCase);
+    }
+    return dropdownElements;
+}

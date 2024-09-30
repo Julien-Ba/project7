@@ -1,0 +1,71 @@
+export function getDropdownDOM(normalizedName, name) {
+    const wrapper = document.createElement('div');
+    wrapper.className = `filters-${normalizedName}-wrapper`;
+
+    const container = document.createElement('div');
+    container.className = `filters-${normalizedName}`;
+    wrapper.appendChild(container);
+
+    const title = document.createElement('h3');
+    title.textContent = name;
+    title.className = 'filters-title';
+    container.appendChild(title);
+
+    const contentContainer = getContentContainerDOM(normalizedName);
+    container.appendChild(contentContainer);
+
+    return wrapper;
+}
+
+function getContentContainerDOM(normalizedName) {
+    const contentContainer = document.createElement('div');
+    contentContainer.className = 'filters-content';
+
+    const searchbox = getSearchboxDOM(normalizedName);
+    contentContainer.appendChild(searchbox);
+
+    const selectedFilterList = document.createElement('ul');
+    selectedFilterList.className = `filters-${normalizedName}-selected`;
+    contentContainer.appendChild(selectedFilterList);
+
+    const filterList = document.createElement('ul');
+    filterList.className = `filters-${normalizedName}-list`;
+    contentContainer.appendChild(filterList);
+
+    return contentContainer;
+}
+
+function getSearchboxDOM(normalizedName) {
+    const searchbox = document.createElement('form');
+    searchbox.action = '#';
+    searchbox.method = 'get';
+    searchbox.className = 'search-box search-filter';
+    searchbox.id = `search-filter-${normalizedName}`;
+
+    const searchboxInput = document.createElement('input');
+    searchboxInput.type = 'search';
+    searchboxInput.name = 'search-filter';
+    searchboxInput.className = 'search-input';
+    searchboxInput.id = `search-${normalizedName}`;
+    searchboxInput.required;
+    searchbox.appendChild(searchboxInput);
+
+    const searchboxReset = document.createElement('button');
+    searchboxReset.type = 'reset';
+    searchboxReset.className = 'search-reset';
+    searchbox.appendChild(searchboxReset);
+
+    const searchboxSubmit = document.createElement('button');
+    searchboxSubmit.type = 'submit';
+    searchboxSubmit.className = 'search-submit';
+    searchbox.appendChild(searchboxSubmit);
+
+    return searchbox;
+}
+
+export function getFilterDOM(name) {
+    const element = document.createElement('li');
+    element.textContent = name;
+    element.tabIndex = 0;
+    return element;
+}

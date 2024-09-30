@@ -1,12 +1,9 @@
-import { capitalizeTitleCase } from "../utils/string.js";
+import { capitalizeTitleCase } from '../utils/string.js';
+
+
 
 export function getRecipeDOM(data) {
-    const description = data.description;
-    const image = data.image;
-    const ingredients = data.ingredients;
-    const name = data.name;
-    const time = data.time;
-
+    const { description, image, ingredients, name, time } = data;
     const container = getRecipeContainer(name, image, time);
     const subContainer = getRecipeSubContainer(name, description, ingredients);
     container.appendChild(subContainer);

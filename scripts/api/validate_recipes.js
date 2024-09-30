@@ -18,7 +18,7 @@ export function validateRecipes(recipes) {
     return validRecipes;
 }
 
-const defaultKeys = ['id', 'image', 'name', 'servings', 'ingredients', 'time', 'description', 'appliance', 'ustensils'];
+const defaultKeys = ['id', 'image', 'name', 'servings', 'ingredients', 'time', 'description', 'appliances', 'utensils'];
 
 function isValidRecipe(recipe) {
     for (const key of defaultKeys) {
@@ -44,8 +44,8 @@ function isValidProperty(key, value) {
         ingredients: isValidIngredients,
         time: isValidTime,
         description: isValidDescription,
-        appliance: isValidAppliance,
-        ustensils: isValidUstensils
+        appliances: isValidAppliance,
+        utensils: isValidUtensils
     };
 
     if (!validators[key]) {
@@ -129,13 +129,13 @@ function isValidAppliance(appliance) {
     return true;
 }
 
-function isValidUstensils(ustensils) {
-    if (!Array.isArray(ustensils)) {
-        console.error(`Recipe ustensil: ${ustensils} needs to be an array!`);
+function isValidUtensils(utensils) {
+    if (!Array.isArray(utensils)) {
+        console.error(`Recipe utensil: ${utensils} needs to be an array!`);
         return false;
     }
-    if (ustensils.some(item => typeof item !== 'string')) {
-        console.error(`Recipe ustensils: ${ustensils} contains non string elements!`);
+    if (utensils.some(item => typeof item !== 'string')) {
+        console.error(`Recipe utensils: ${utensils} contains non string elements!`);
         return false;
     }
     return true;
