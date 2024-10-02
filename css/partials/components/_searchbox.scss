@@ -12,12 +12,7 @@
         position: absolute;
         border: none;
         background-color: inherit;
-
-        &::after {
-            content: "X";
-            font-family: "FontAwesome";
-            color: utils.$clr-dark;
-        }
+        @include utils.xIcon;
     }
 
     .search-input:valid ~ .search-reset {

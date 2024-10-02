@@ -1,4 +1,5 @@
-import { capitalizeTitleCase } from '../utils/string.js';
+import { recipesFilterTags } from '../recipes/init.js';
+import { capitalizeTitleCase, cleanString } from '../utils/string.js';
 import { initClickEvent, initKeydownEvent, initKeyupEvent, initResetEvent } from './event.js';
 import { displayDropdown } from './mutation.js';
 
@@ -59,10 +60,13 @@ export function getDropdownElements(data) {
             if (Array.isArray(categoryData)) {
                 categoryData.forEach(element => {
                     const name = element.ingredient || element;
+                    if (recipesFilterTags.includes(cleanString(name)))
+                        return;
                     set.add(name);
                 });
             } else if (categoryData) {
-                set.add(categoryData);
+                if (!recipesFilterTags.includes(cleanString(categoryData)))
+                    set.add(categoryData);
             }
         });
         dropdownElements[category] = Array.from(set).map(capitalizeTitleCase);

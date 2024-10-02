@@ -102,3 +102,20 @@ function getRecipeIngredientsDOM(ingredients) {
     ingredientsDOM.forEach(ingredient => subContainer.appendChild(ingredient));
     return container;
 }
+
+export function getSearchTagDOM(tag) {
+    const tagDOM = document.createElement('li');
+    tagDOM.classList.add('search-tag');
+
+    const tagTitle = document.createElement('p');
+    tagTitle.textContent = tag;
+    tagTitle.classList.add('tag-title');
+    tagDOM.appendChild(tagTitle);
+
+    const closeIcon = document.createElement('span');
+    closeIcon.tabIndex = 0;
+    closeIcon.classList.add('close-tag');
+    tagDOM.appendChild(closeIcon);
+
+    return tagDOM;
+}

@@ -1,10 +1,11 @@
-import { initKeyupEvent, initResetEvent } from './event.js';
+import { initClickEvent, initKeyupEvent, initResetEvent, initSubmitEvent } from './event.js';
 import { displayRecipes } from './mutation.js';
 
 
 
 export const allRecipes = [];
 export const recipesFilterTags = [];
+export const filteredRecipes = [];
 
 
 
@@ -17,14 +18,16 @@ export const recipesFilterTags = [];
 
 export function initRecipes(data) {
     allRecipes.push(...data);
+    filteredRecipes.push(...data);
     displayRecipes(allRecipes);
     initEventListeners();
 }
 
 function initEventListeners() {
-    //initClickEvent();
+    initClickEvent();
     initKeyupEvent();
     initResetEvent();
+    initSubmitEvent();
 }
 
 

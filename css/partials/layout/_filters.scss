@@ -5,7 +5,6 @@
     justify-content: space-between;
     align-items: center;
     height: 3.5rem;
-    margin-block-end: 3rem;
 }
 
 .filters-lists {
@@ -106,7 +105,7 @@
 }
 
 [class^="filters"][data-expanded="true"] {
-    box-shadow: 1px 1px 10px rgba(200, 200, 200, 60);
+    @extend %box-shadow;
 
     .filters-title::after {
         content: "\f077";

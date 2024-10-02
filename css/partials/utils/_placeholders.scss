@@ -5,6 +5,16 @@
     border: none;
 }
 
+%box-shadow {
+    box-shadow: 1px 1px 10px rgba(200, 200, 200, 60);
+}
+
+%ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 %outline {
     outline: 2px solid colors.$clr-primary;
 }

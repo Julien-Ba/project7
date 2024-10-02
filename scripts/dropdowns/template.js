@@ -47,7 +47,7 @@ function getSearchboxDOM(normalizedName) {
     searchboxInput.name = 'search-filter';
     searchboxInput.className = 'search-input';
     searchboxInput.id = `search-${normalizedName}`;
-    searchboxInput.required;
+    searchboxInput.required = true;
     searchbox.appendChild(searchboxInput);
 
     const searchboxReset = document.createElement('button');
@@ -68,4 +68,29 @@ export function getFilterDOM(name) {
     element.textContent = name;
     element.tabIndex = 0;
     return element;
+}
+
+export function getDropdownTagDOM(tag) {
+    const tagDOM = document.createElement('li');
+    tagDOM.textContent = tag;
+    tagDOM.tabIndex = 0;
+    tagDOM.classList.add('dropdown-tag');
+    return tagDOM;
+}
+
+export function getMainTagDOM(tag) {
+    const tagDOM = document.createElement('li');
+    tagDOM.classList.add('dropdown-tag');
+
+    const tagTitle = document.createElement('p');
+    tagTitle.textContent = tag;
+    tagTitle.classList.add('tag-title');
+    tagDOM.appendChild(tagTitle);
+
+    const closeIcon = document.createElement('span');
+    closeIcon.tabIndex = 0;
+    closeIcon.classList.add('close-tag');
+    tagDOM.appendChild(closeIcon);
+
+    return tagDOM;
 }

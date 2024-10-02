@@ -1,6 +1,9 @@
+import { filterRecipes } from '../recipes/filter.js';
+import { recipesFilterTags } from '../recipes/init.js';
+import { displayRecipes } from '../recipes/mutation.js';
 import { cleanString } from '../utils/string.js';
-import { dropdownElements, dropdownFilterTags } from './init.js';
-import { populateDropdown } from './mutation.js';
+import { dropdownCategories, dropdownElements, dropdownFilterTags, getDropdownElements } from './init.js';
+import { displayDropdownTag, hideDropdownTag, populateDropdown } from './mutation.js';
 
 
 
@@ -43,4 +46,29 @@ function filterDropdownElements(category) {
                 cleanString(element).includes(cleanString(tag))
             )
         );
+}
+
+export function addDropdownTag(event, category) {
+    displayDropdownTag(event, category);
+    const tag = event.target.textContent;
+    recipesFilterTags.push(cleanString(tag));
+    const matchingRecipes = filterRecipes();
+    displayRecipes(matchingRecipes);
+    const dropdownElements = getDropdownElements(matchingRecipes);
+    for (const [category, elements] of Object.entries(dropdownElements)) {
+        populateDropdown(category, elements);
+    }
+}
+
+export function removeDropdownTag(event, category) {
+    hideDropdownTag(event, category);
+    const tag = event.target.textContent;
+    const index = recipesFilterTags.indexOf(tag);
+    recipesFilterTags.splice(index, 1);
+    const matchingRecipes = filterRecipes();
+    displayRecipes(matchingRecipes);
+    const dropdownElements = getDropdownElements(matchingRecipes);
+    for (const [category, elements] of Object.entries(dropdownElements)) {
+        populateDropdown(category, elements);
+    }
 }

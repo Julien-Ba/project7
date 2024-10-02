@@ -15,14 +15,3 @@ async function init() {
 }
 
 init();
-
-
-
-// ----- Event Listeners ----- \\
-
-// main searchbox
-const searchForm = document.querySelector('.header-search');
-//searchForm.addEventListener('reset', searchInRecipes);
-
-const searchInput = document.querySelector('#search');
-//searchInput.addEventListener('keyup', searchInRecipes);

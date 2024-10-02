@@ -1,6 +1,5 @@
 import { dropdownCategories } from './init.js';
-import { getDropdownDOM, getFilterDOM } from './template.js';
-import { getDropdownTagDOM } from '../tags/template.js';
+import { getDropdownDOM, getDropdownTagDOM, getFilterDOM, getMainTagDOM } from './template.js';
 
 
 
@@ -83,13 +82,13 @@ export function closeDropdown(event) {
     }
 }
 
-export function displayDropdownTag(category, event) {
+export function displayDropdownTag(event, category) {
     const selectedContainer = document.querySelector(`.filters-${category}-selected`);
-    const tagDOM = event.target;
-    const tag = tagDOM.textContent;
+    const unselectedTagElement = event.target;
+    const tag = unselectedTagElement.textContent;
 
     // Remove the tag from the unselected list
-    tagDOM.remove();
+    unselectedTagElement.remove();
 
     // Ensure the container is visible
     if (selectedContainer.style.display !== 'flex') {
@@ -97,25 +96,63 @@ export function displayDropdownTag(category, event) {
     }
 
     // Create a new element and append to the selected list
-    const newTagDOM = getDropdownTagDOM(tag);
-    selectedContainer.insertAdjacentElement('afterbegin', newTagDOM);
+    const dropdownTagDOM = getDropdownTagDOM(tag);
+    selectedContainer.insertAdjacentElement('afterbegin', dropdownTagDOM);
+
+    const mainTagDom = getMainTagDOM(tag);
+    const tagContainer = document.querySelector('.tags');
+    tagContainer.insertAdjacentElement('afterbegin', mainTagDom);
 }
 
-export function removeDropdownTag(category, event) {
-    const tagDOM = event.target;
-    const tag = tagDOM.textContent;
-    const container = tagDOM.parentElement;
+export function hideDropdownTag(event) {
+    let category;
+    let tag;
+    let tagDropdownElement;
+    let tagMainElement;
 
-    // Remove the element from the selected list
-    tagDOM.remove();
-
-    // If no sibling tags, hide the container
-    if (!container.children?.length) {
-        container.style.display = 'none';
+    const dropdownContainers = document.querySelectorAll('[class^=filters-][class$=-selected]');
+    dropdownContainers.forEach(container => {
+        if (container.contains(event.target)) {
+            tagDropdownElement = event.target;
+            tag = tagDropdownElement.textContent;
+            category = container.className.replace('filters-', '').replace('-selected', '');
+            return;
+        }
+    });
+    if (!tagDropdownElement) {
+        tagMainElement = event.target.parentElement;
+        tag = tagMainElement.firstChild.textContent;
+        dropdownContainers.forEach(container => {
+            Array.from(container.children).forEach(element => {
+                if (element.textContent === tag) {
+                    tagDropdownElement = element;
+                    category = container.className.replace('filters-', '').replace('-selected', '');
+                    return;
+                }
+            });
+            if (tagDropdownElement) return;
+        });
+    } else {
+        const mainTags = document.querySelectorAll('.tags .dropdown-tag');
+        mainTags.forEach(element => {
+            if (element.firstChild.textContent === tag) {
+                tagMainElement = element;
+                return;
+            }
+        });
     }
 
+    // If no sibling tags, hide the container
+    const dropdownContainer = tagDropdownElement.parentElement;
+    if (!dropdownContainer.children?.length === 1) {
+        dropdownContainer.style.display = 'none';
+    }
+
+    // Remove the element from the selected list and the tag container
+    [tagDropdownElement, tagMainElement].forEach(element => element.remove());
+
     // Create a new element and append to the unselected list
-    const listContainer = document.querySelector(`.filters-${category}-list`);
+    const unselectedContainer = document.querySelector(`.filters-${category}-list`);
     const unselectedTagDOM = getFilterDOM(tag);
-    listContainer.insertAdjacentElement('afterbegin', unselectedTagDOM);
+    unselectedContainer.insertAdjacentElement('afterbegin', unselectedTagDOM);
 }

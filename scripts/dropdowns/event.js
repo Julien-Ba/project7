@@ -1,6 +1,6 @@
 import { dropdownCategories } from './init.js';
-import { searchInDropdowns } from './filter.js';
-import { closeDropdown, displayDropdownTag, removeDropdownTag, toggleDropdown } from './mutation.js';
+import { addDropdownTag, removeDropdownTag, searchInDropdowns } from './filter.js';
+import { closeDropdown, toggleDropdown } from './mutation.js';
 
 
 
@@ -10,6 +10,15 @@ export function initClickEvent() {
 
         // close the dropdown when the user click outside of it
         closeDropdown(event);
+
+        const tagElement = document.querySelectorAll('.dropdown-tag');
+        if (tagElement?.length) {
+            tagElement.forEach(element => {
+                if (element.contains(target) && target.classList.contains('close-tag')) {
+                    removeDropdownTag(event);
+                }
+            });
+        }
 
         // check if the div for each category has been created -> `.filters-${category}-wrapper`
         const dropdownWrappers = document.querySelector('[class^=filters-][class$=-wrapper]');
@@ -24,13 +33,13 @@ export function initClickEvent() {
 
             const listContainer = document.querySelector(`.filters-${category}-list`);
             if (listContainer && listContainer.contains(target)) {
-                displayDropdownTag(category, event);
+                addDropdownTag(event, category);
                 break;
             }
 
             const selectedContainer = document.querySelector(`.filters-${category}-selected`);
             if (selectedContainer && selectedContainer.contains(target)) {
-                removeDropdownTag(category, event);
+                removeDropdownTag(event, category);
                 break;
             }
         }
