@@ -139,6 +139,9 @@ video {
 .header-search > * {
   color: rgb(122, 122, 122);
 }
+.header-search > *::placeholder {
+  color: inherit;
+}
 .header-search #submit {
   font-family: "FontAwesome";
 }
