@@ -51,7 +51,11 @@
         gap: 0.25rem;
 
         .dropdown-tag {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background-color: utils.$clr-primary;
+            @include utils.xIconCircle;
         }
     }
 
@@ -68,6 +72,11 @@
     li {
         padding: 0.5rem 1rem;
         cursor: pointer;
+
+        &:focus,
+        &:hover {
+            background-color: utils.$clr-primary;
+        }
     }
 }
 

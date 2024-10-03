@@ -29,6 +29,6 @@
         display: flex;
         justify-content: center;
         cursor: pointer;
-        @include utils.xIconCircle;
+        @include utils.xIcon;
     }
 }

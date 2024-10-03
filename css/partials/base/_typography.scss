@@ -13,8 +13,7 @@
     }
 
     &-search {
-        #search,
-        #search::placeholder {
+        > * {
             color: utils.$clr-dark;
         }
 
@@ -34,12 +33,16 @@
         font-weight: 500;
     }
 
-    input {
+    .search-box > * {
         color: utils.$clr-dark;
     }
 
     li {
         font-size: 0.875rem;
+    }
+
+    [class^="filters-"][class$="-selected"] {
+        font-weight: 700;
     }
 }
 
@@ -48,8 +51,11 @@
     font-size: 1.3125rem;
 }
 
-.tag-title {
+.tags {
     font-size: 0.875rem;
+}
+
+.close-tag {
     font-weight: 700;
 }
 

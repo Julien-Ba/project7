@@ -8,7 +8,7 @@
 @mixin xIcon {
     &::after {
         @extend %X;
-        color: colors.$clr-dark;
+        color: inherit;
     }
 }
 
