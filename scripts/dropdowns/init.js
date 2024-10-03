@@ -27,7 +27,7 @@ export const dropdownFilterTags = {};
  * @param {Object[]} validatedRecipes 
  */
 
-export function dropdown(data) {
+export function initDropdown(data) {
     Object.assign(dropdownElements, getDropdownElements(data));
     displayDropdown(dropdownElements);
 
