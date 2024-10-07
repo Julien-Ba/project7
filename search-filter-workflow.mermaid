@@ -1,0 +1,22 @@
+graph TD
+    A[Start] --> B[Fetch and Validate Recipes]
+    B --> C[Initialize Dropdowns]
+    B --> D[Initialize Recipes]
+    C --> E[Populate Dropdown Elements]
+    D --> F[Populate Recipes Elements]
+    E --> G[Set Up Event Listeners]
+    F --> G
+    G --> H{User Interaction}
+    H -->|Main Search Input| I[Add Search Term to Tags Array]
+    H -->|Open Dropdown| J[Display Filter Tags]
+    J --> K{User Action}
+    K -->|Search Within Dropdown| L[Filter Dropdown Options]
+    L --> M[Select Tag]
+    K -->|Direct Selection| M
+    M --> N[Add Selected Tag to Tags Array]
+    I --> O[Update Combined Tags Array]
+    N --> O
+    O --> P[Apply Filters to Recipes]
+    P --> Q[Display Updated Recipes]
+    Q --> H
+    Q --> R[end]
