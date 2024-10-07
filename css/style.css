@@ -311,6 +311,13 @@ main {
 .header-search .search-submit::after {
   color: rgb(255, 255, 255);
 }
+.header-search .search-submit:hover {
+  background-color: rgb(255, 209, 91);
+}
+.header-search .search-submit:hover::after {
+  color: rgb(0, 0, 0);
+}
+
 .filters-container {
   display: flex;
   justify-content: space-between;
