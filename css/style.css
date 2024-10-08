@@ -121,7 +121,7 @@ video {
   outline: 2px solid rgb(255, 209, 91);
 }
 
-.tags .close-tag::after, .filters-content > [class$=selected] .dropdown-tag::after, .search-box .search-reset::after {
+.tags .close-tag::after, .filters-content > [class$=-tags] .dropdown-tag::after, .search-box .search-reset::after {
   content: "X";
   font-family: "FontAwesome";
 }
@@ -159,7 +159,7 @@ video {
 .filters-lists li {
   font-size: 0.875rem;
 }
-.filters-lists [class^=filters-][class$=-selected] {
+.filters-lists [class$=-tags] {
   font-weight: 700;
 }
 
@@ -359,18 +359,18 @@ main {
   flex-direction: column;
   gap: 1rem;
 }
-.filters-content > [class$=selected] {
-  display: none;
+.filters-content > [class$=-tags] {
+  display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
-.filters-content > [class$=selected] .dropdown-tag {
+.filters-content > [class$=-tags] .dropdown-tag {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: rgb(255, 209, 91);
 }
-.filters-content > [class$=selected] .dropdown-tag::after {
+.filters-content > [class$=-tags] .dropdown-tag::after {
   width: 1.0625rem;
   height: 1.0625rem;
   color: rgb(255, 209, 91);

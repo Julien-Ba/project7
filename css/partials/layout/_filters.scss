@@ -46,7 +46,7 @@
     gap: 1rem;
 
     > [class$="-tags"] {
-        display: none;
+        display: flex;
         flex-direction: column;
         gap: 0.25rem;
 
