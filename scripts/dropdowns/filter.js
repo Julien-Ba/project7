@@ -4,6 +4,7 @@ import { displayRecipes } from '../recipes/mutation.js';
 import { cleanString } from '../utils/string.js';
 import { dropdownElements, dropdownFilterTags, getDropdownElements } from './init.js';
 import { displayDropdownTag, populateDropdown } from './mutation.js';
+import { getDropdownTagDOM } from './template.js';
 
 
 
@@ -16,17 +17,12 @@ export function searchInDropdowns(event, category) {
         addSearchTerm(searchTerm, category);
         previousSearchTerm = searchTerm;
     }
-    const matchingDropdownElements = filterDropdownElements(category);
-    return populateDropdown(category, matchingDropdownElements);
+    return updateDropdown(category);
 }
 
-function addSearchTerm(searchTerm, category) {
-    if (!dropdownFilterTags.hasOwnProperty(category)) {
-        dropdownFilterTags[category] = [];
-    }
-    if (!dropdownFilterTags[category].includes(searchTerm)) {
-        dropdownFilterTags[category].push(searchTerm);
-    }
+function updateDropdown(category) {
+    const matchingDropdownElements = filterDropdownElements(category);
+    return populateDropdown(category, matchingDropdownElements);
 }
 
 function removePreviousSearchTerm(searchTerm, category) {
@@ -38,14 +34,49 @@ function removePreviousSearchTerm(searchTerm, category) {
     }
 }
 
+function addSearchTerm(searchTerm, category) {
+    if (!dropdownFilterTags.hasOwnProperty(category))
+        dropdownFilterTags[category] = [];
+    dropdownFilterTags[category].push(searchTerm);
+}
+
 function filterDropdownElements(category) {
     return !dropdownFilterTags[category]?.length
         ? dropdownElements[category]
         : dropdownElements[category].filter(element =>
-            dropdownFilterTags[category].some(tag =>
+            dropdownFilterTags[category].every(tag =>
                 cleanString(element).includes(cleanString(tag))
             )
         );
+}
+
+export function submitSearchTag(event, category) {
+    event.preventDefault();
+    const input = event.target.querySelector('input[type="search"]');
+    const tag = input.value;
+
+    addSearchTerm(tag, category);
+    removePreviousSearchTerm(previousSearchTerm, category);
+    previousSearchTerm = '';
+    input.value = '';
+
+    addSearchTag(tag, category);
+
+    return updateDropdown(category);
+}
+
+function addSearchTag(tag, category) {
+    const container = document.querySelector(`.${category}-tags`);
+    const tagDom = getDropdownTagDOM(tag);
+    container.appendChild(tagDom);
+}
+
+export function removeSearchTag(event, category) {
+    const tagElement = event.target;
+    tagElement.remove();
+    const tag = cleanString(tagElement.textContent);
+    removePreviousSearchTerm(tag, category);
+    return updateDropdown(category);
 }
 
 export function addDropdownTag(event) {

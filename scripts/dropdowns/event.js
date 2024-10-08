@@ -1,5 +1,5 @@
 import { dropdownCategories } from './init.js';
-import { addDropdownTag, removeDropdownTag, searchInDropdowns } from './filter.js';
+import { addDropdownTag, removeDropdownTag, removeSearchTag, searchInDropdowns, submitSearchTag } from './filter.js';
 import { closeDropdown, toggleDropdown } from './mutation.js';
 
 
@@ -39,7 +39,7 @@ export function initClickEvent() {
 
             const tagContainer = document.querySelector(`.${category}-tags`);
             if (tagContainer && tagContainer.contains(target)) {
-                removeDropdownTag(event);
+                removeSearchTag(event, category);
                 break;
             }
         }
@@ -72,6 +72,20 @@ export function initResetEvent() {
             const searchForm = document.querySelector(`#search-filter-${category}`);
             if (searchForm && target === searchForm) {
                 searchInDropdowns(event, category);
+                break;
+            }
+        };
+    });
+}
+
+export function initSubmitEvent() {
+    document.addEventListener('submit', event => {
+
+        const target = event.target;
+        for (const category of Object.getOwnPropertyNames(dropdownCategories)) {
+            const searchForm = document.querySelector(`#search-filter-${category}`);
+            if (searchForm && target === searchForm) {
+                submitSearchTag(event, category);
                 break;
             }
         };

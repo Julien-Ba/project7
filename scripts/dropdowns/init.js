@@ -1,6 +1,6 @@
 import { recipesFilterTags } from '../recipes/init.js';
 import { capitalizeTitleCase, cleanString } from '../utils/string.js';
-import { initClickEvent, initKeydownEvent, initKeyupEvent, initResetEvent } from './event.js';
+import { initClickEvent, initKeydownEvent, initKeyupEvent, initResetEvent, initSubmitEvent } from './event.js';
 import { displayDropdown } from './mutation.js';
 
 
@@ -39,6 +39,7 @@ function initEventListeners() {
     initKeydownEvent();
     initKeyupEvent();
     initResetEvent();
+    initSubmitEvent();
 }
 
 

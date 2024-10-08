@@ -59,7 +59,7 @@ function hasMatchingUtensils(tag, utensils) {
 
 export function submitSearchTag(event) {
     event.preventDefault();
-    const input = document.querySelector('input[type="search"]');
+    const input = event.target.querySelector('input[type="search"]');
     const tag = input.value;
     removePreviousSearchTerm(previousSearchTerm);
     previousSearchTerm = '';
@@ -68,7 +68,6 @@ export function submitSearchTag(event) {
 }
 
 function addSearchTag(tag) {
-    console.log(recipesFilterTags);
     const container = document.querySelector('.tags');
     const tagDom = getSearchTagDOM(tag);
     container.appendChild(tagDom);
