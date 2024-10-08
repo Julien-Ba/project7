@@ -13,17 +13,11 @@ export function searchInRecipes(event) {
     removePreviousSearchTerm(previousSearchTerm);
     const searchTerm = cleanString(event.target.value);
     if (searchTerm?.length > 2) {
-        addSearchTerm(searchTerm);
+        recipesFilterTags.push(searchTerm);
         previousSearchTerm = searchTerm;
     }
     const matchingRecipes = filterRecipes();
     return displayRecipes(matchingRecipes, searchTerm);
-}
-
-function addSearchTerm(searchTerm) {
-    if (!recipesFilterTags.includes(searchTerm)) {
-        recipesFilterTags.push(searchTerm);
-    }
 }
 
 function removePreviousSearchTerm(searchTerm) {
