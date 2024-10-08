@@ -1,5 +1,5 @@
 import { dropdownCategories } from './init.js';
-import { getDropdownDOM, getDropdownTagDOM, getFilterDOM, getMainTagDOM } from './template.js';
+import { getDropdownDOM, getFilterDOM, getMainTagDOM } from './template.js';
 
 
 
@@ -82,77 +82,14 @@ export function closeDropdown(event) {
     }
 }
 
-export function displayDropdownTag(event, category) {
-    const selectedContainer = document.querySelector(`.filters-${category}-selected`);
+export function displayDropdownTag(event) {
     const unselectedTagElement = event.target;
     const tag = unselectedTagElement.textContent;
 
     // Remove the tag from the unselected list
     unselectedTagElement.remove();
 
-    // Ensure the container is visible
-    if (selectedContainer.style.display !== 'flex') {
-        selectedContainer.style.display = 'flex';
-    }
-
-    // Create a new element and append to the selected list
-    const dropdownTagDOM = getDropdownTagDOM(tag);
-    selectedContainer.insertAdjacentElement('afterbegin', dropdownTagDOM);
-
     const mainTagDom = getMainTagDOM(tag);
     const tagContainer = document.querySelector('.tags');
     tagContainer.insertAdjacentElement('afterbegin', mainTagDom);
-}
-
-export function hideDropdownTag(event) {
-    let category;
-    let tag;
-    let tagDropdownElement;
-    let tagMainElement;
-
-    const dropdownContainers = document.querySelectorAll('[class^=filters-][class$=-selected]');
-    dropdownContainers.forEach(container => {
-        if (container.contains(event.target)) {
-            tagDropdownElement = event.target;
-            tag = tagDropdownElement.textContent;
-            category = container.className.replace('filters-', '').replace('-selected', '');
-            return;
-        }
-    });
-    if (!tagDropdownElement) {
-        tagMainElement = event.target.parentElement;
-        tag = tagMainElement.firstChild.textContent;
-        dropdownContainers.forEach(container => {
-            Array.from(container.children).forEach(element => {
-                if (element.textContent === tag) {
-                    tagDropdownElement = element;
-                    category = container.className.replace('filters-', '').replace('-selected', '');
-                    return;
-                }
-            });
-            if (tagDropdownElement) return;
-        });
-    } else {
-        const mainTags = document.querySelectorAll('.tags .dropdown-tag');
-        mainTags.forEach(element => {
-            if (element.firstChild.textContent === tag) {
-                tagMainElement = element;
-                return;
-            }
-        });
-    }
-
-    // If no sibling tags, hide the container
-    const dropdownContainer = tagDropdownElement.parentElement;
-    if (!dropdownContainer.children?.length === 1) {
-        dropdownContainer.style.display = 'none';
-    }
-
-    // Remove the element from the selected list and the tag container
-    [tagDropdownElement, tagMainElement].forEach(element => element.remove());
-
-    // Create a new element and append to the unselected list
-    const unselectedContainer = document.querySelector(`.filters-${category}-list`);
-    const unselectedTagDOM = getFilterDOM(tag);
-    unselectedContainer.insertAdjacentElement('afterbegin', unselectedTagDOM);
 }

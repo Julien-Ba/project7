@@ -33,13 +33,13 @@ export function initClickEvent() {
 
             const listContainer = document.querySelector(`.filters-${category}-list`);
             if (listContainer && listContainer.contains(target)) {
-                addDropdownTag(event, category);
+                addDropdownTag(event);
                 break;
             }
 
             const selectedContainer = document.querySelector(`.filters-${category}-selected`);
             if (selectedContainer && selectedContainer.contains(target)) {
-                removeDropdownTag(event, category);
+                removeDropdownTag(event);
                 break;
             }
         }

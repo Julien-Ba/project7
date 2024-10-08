@@ -2,8 +2,8 @@ import { filterRecipes } from '../recipes/filter.js';
 import { recipesFilterTags } from '../recipes/init.js';
 import { displayRecipes } from '../recipes/mutation.js';
 import { cleanString } from '../utils/string.js';
-import { dropdownCategories, dropdownElements, dropdownFilterTags, getDropdownElements } from './init.js';
-import { displayDropdownTag, hideDropdownTag, populateDropdown } from './mutation.js';
+import { dropdownElements, dropdownFilterTags, getDropdownElements } from './init.js';
+import { displayDropdownTag, populateDropdown } from './mutation.js';
 
 
 
@@ -48,8 +48,8 @@ function filterDropdownElements(category) {
         );
 }
 
-export function addDropdownTag(event, category) {
-    displayDropdownTag(event, category);
+export function addDropdownTag(event) {
+    displayDropdownTag(event);
     const tag = event.target.textContent;
     recipesFilterTags.push(cleanString(tag));
     const matchingRecipes = filterRecipes();
@@ -60,9 +60,10 @@ export function addDropdownTag(event, category) {
     }
 }
 
-export function removeDropdownTag(event, category) {
-    hideDropdownTag(event, category);
-    const tag = event.target.textContent;
+export function removeDropdownTag(event) {
+    const tagElement = event.target.parentElement;
+    tagElement.remove();
+    const tag = cleanString(event.target.previousSibling.textContent);
     const index = recipesFilterTags.indexOf(tag);
     recipesFilterTags.splice(index, 1);
     const matchingRecipes = filterRecipes();
