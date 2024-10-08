@@ -37,8 +37,8 @@ export function initClickEvent() {
                 break;
             }
 
-            const selectedContainer = document.querySelector(`.filters-${category}-selected`);
-            if (selectedContainer && selectedContainer.contains(target)) {
+            const tagContainer = document.querySelector(`.${category}-tags`);
+            if (tagContainer && tagContainer.contains(target)) {
                 removeDropdownTag(event);
                 break;
             }

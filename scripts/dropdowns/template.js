@@ -24,9 +24,9 @@ function getContentContainerDOM(normalizedName) {
     const searchbox = getSearchboxDOM(normalizedName);
     contentContainer.appendChild(searchbox);
 
-    const selectedFilterList = document.createElement('ul');
-    selectedFilterList.className = `filters-${normalizedName}-selected`;
-    contentContainer.appendChild(selectedFilterList);
+    const filterTags = document.createElement('ul');
+    filterTags.className = `${normalizedName}-tags`;
+    contentContainer.appendChild(filterTags);
 
     const filterList = document.createElement('ul');
     filterList.className = `filters-${normalizedName}-list`;
