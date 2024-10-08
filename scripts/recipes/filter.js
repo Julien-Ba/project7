@@ -30,7 +30,7 @@ function removePreviousSearchTerm(searchTerm) {
 }
 
 export function filterRecipes() {
-    if (!recipesFilterTags?.length)
+    if (!recipesFilterTags || recipesFilterTags.length === 0)
         return allRecipes;
     const filteredRecipes = [];
     for (const recipe of allRecipes) {

@@ -41,7 +41,7 @@ function addSearchTerm(searchTerm, category) {
 }
 
 function filterDropdownElements(category) {
-    if (!dropdownFilterTags[category]?.length)
+    if (!dropdownFilterTags[category] || dropdownFilterTags[category].length === 0)
         return dropdownElements[category];
     const filteredElements = [];
     for (const element of dropdownElements[category]) {
