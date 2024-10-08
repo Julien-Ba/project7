@@ -41,13 +41,21 @@ function addSearchTerm(searchTerm, category) {
 }
 
 function filterDropdownElements(category) {
-    return !dropdownFilterTags[category]?.length
-        ? dropdownElements[category]
-        : dropdownElements[category].filter(element =>
-            dropdownFilterTags[category].every(tag =>
-                cleanString(element).includes(cleanString(tag))
-            )
-        );
+    if (!dropdownFilterTags[category]?.length)
+        return dropdownElements[category];
+    const filteredElements = [];
+    for (const element of dropdownElements[category]) {
+        let isMatch = true;
+        for (const tag of dropdownFilterTags[category]) {
+            if (!cleanString(element).includes(cleanString(tag))) {
+                isMatch = false;
+                break;
+            }
+        }
+        if (isMatch)
+            filteredElements.push(element);
+    }
+    return filteredElements;
 }
 
 export function submitSearchTag(event, category) {

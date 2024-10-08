@@ -30,15 +30,25 @@ function removePreviousSearchTerm(searchTerm) {
 }
 
 export function filterRecipes() {
-    return recipesFilterTags?.length
-        ? allRecipes.filter(recipe =>
-            recipesFilterTags.every(tag =>
-                hasMatchingName(tag, recipe.name)
-                || hasMatchingIngredients(tag, recipe.ingredients)
-                || hasMatchingAppliances(tag, recipe.appliances)
-                || hasMatchingUtensils(tag, recipe.utensils)
-            )
-        ) : allRecipes;
+    if (!recipesFilterTags?.length)
+        return allRecipes;
+    const filteredRecipes = [];
+    for (const recipe of allRecipes) {
+        let isMatch = true;
+        for (const tag of recipesFilterTags) {
+            if (!hasMatchingName(tag, recipe.name)
+                && !hasMatchingIngredients(tag, recipe.ingredients)
+                && !hasMatchingAppliances(tag, recipe.appliances)
+                && !hasMatchingUtensils(tag, recipe.utensils)
+            ) {
+                isMatch = false;
+                break;
+            }
+        }
+        if (isMatch)
+            filteredRecipes.push(recipe);
+    }
+    return filteredRecipes;
 }
 
 function hasMatchingName(tag, name) {
