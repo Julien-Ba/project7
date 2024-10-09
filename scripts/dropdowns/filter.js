@@ -1,8 +1,5 @@
-import { filterRecipes } from '../recipes/filter.js';
-import { recipesFilterTags } from '../recipes/init.js';
-import { displayRecipes } from '../recipes/mutation.js';
-import { cleanString } from '../utils/string.js';
-import { dropdownElements, dropdownFilterTags, getDropdownElements } from './init.js';
+import { addRecipesFilterTag, getCleanString, removeRecipesFilterTag, updateRecipes } from '../main.js';
+import { dropdownElements, dropdownFilterTags } from './init.js';
 import { displayDropdownTag, populateDropdown } from './mutation.js';
 import { getDropdownTagDOM } from './template.js';
 
@@ -17,12 +14,12 @@ export function searchInDropdowns(event, category) {
         addSearchTerm(searchTerm, category);
         previousSearchTerm = searchTerm;
     }
-    return updateDropdown(category);
+    updateDropdown(category);
 }
 
-function updateDropdown(category) {
+export function updateDropdown(category) {
     const matchingDropdownElements = filterDropdownElements(category);
-    return populateDropdown(category, matchingDropdownElements);
+    populateDropdown(category, matchingDropdownElements);
 }
 
 function removePreviousSearchTerm(searchTerm, category) {
@@ -41,11 +38,12 @@ function addSearchTerm(searchTerm, category) {
 }
 
 function filterDropdownElements(category) {
+    console.log(dropdownFilterTags);
     return !dropdownFilterTags[category]?.length
         ? dropdownElements[category]
         : dropdownElements[category].filter(element =>
             dropdownFilterTags[category].every(tag =>
-                cleanString(element).includes(cleanString(tag))
+                getCleanString(element).includes(getCleanString(tag))
             )
         );
 }
@@ -62,7 +60,7 @@ export function submitSearchTag(event, category) {
 
     addSearchTag(tag, category);
 
-    return updateDropdown(category);
+    updateDropdown(category);
 }
 
 function addSearchTag(tag, category) {
@@ -74,33 +72,22 @@ function addSearchTag(tag, category) {
 export function removeSearchTag(event, category) {
     const tagElement = event.target;
     tagElement.remove();
-    const tag = cleanString(tagElement.textContent);
+    const tag = getCleanString(tagElement.textContent);
     removePreviousSearchTerm(tag, category);
-    return updateDropdown(category);
+    updateDropdown(category);
 }
 
 export function addDropdownTag(event) {
     displayDropdownTag(event);
     const tag = event.target.textContent;
-    recipesFilterTags.push(cleanString(tag));
-    const matchingRecipes = filterRecipes();
-    displayRecipes(matchingRecipes);
-    const dropdownElements = getDropdownElements(matchingRecipes);
-    for (const [category, elements] of Object.entries(dropdownElements)) {
-        populateDropdown(category, elements);
-    }
+    addRecipesFilterTag(tag);
+    updateRecipes();
 }
 
 export function removeDropdownTag(event) {
     const tagElement = event.target.parentElement;
     tagElement.remove();
-    const tag = cleanString(event.target.previousSibling.textContent);
-    const index = recipesFilterTags.indexOf(tag);
-    recipesFilterTags.splice(index, 1);
-    const matchingRecipes = filterRecipes();
-    displayRecipes(matchingRecipes);
-    const dropdownElements = getDropdownElements(matchingRecipes);
-    for (const [category, elements] of Object.entries(dropdownElements)) {
-        populateDropdown(category, elements);
-    }
+    const tag = getCleanString(event.target.previousSibling.textContent);
+    removeRecipesFilterTag(tag);
+    updateRecipes();
 }

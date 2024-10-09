@@ -1,6 +1,4 @@
-import { getDropdownElements } from "../dropdowns/init.js";
-import { populateDropdown } from "../dropdowns/mutation.js";
-import { cleanString } from "../utils/string.js";
+import { getCleanString, updateDropdowns } from "../main.js";
 import { allRecipes, recipesFilterTags } from "./init.js";
 import { displayRecipes } from "./mutation.js";
 import { getSearchTagDOM } from "./template.js";
@@ -11,13 +9,18 @@ let previousSearchTerm = '';
 
 export function searchInRecipes(event) {
     removePreviousSearchTerm(previousSearchTerm);
-    const searchTerm = cleanString(event.target.value);
+    const searchTerm = getCleanString(event.target.value);
     if (searchTerm?.length > 2) {
         recipesFilterTags.push(searchTerm);
         previousSearchTerm = searchTerm;
     }
+    updateRecipes();
+}
+
+function updateRecipes() {
     const matchingRecipes = filterRecipes();
-    return displayRecipes(matchingRecipes, searchTerm);
+    displayRecipes(matchingRecipes);
+    updateDropdowns(matchingRecipes);
 }
 
 function removePreviousSearchTerm(searchTerm) {
@@ -42,19 +45,19 @@ export function filterRecipes() {
 }
 
 function hasMatchingName(tag, name) {
-    return cleanString(name).includes(tag);
+    return getCleanString(name).includes(tag);
 }
 
 function hasMatchingIngredients(tag, ingredients) {
-    return ingredients.some(ingredient => cleanString(ingredient.ingredient).includes(tag));
+    return ingredients.some(ingredient => getCleanString(ingredient.ingredient).includes(tag));
 }
 
 function hasMatchingAppliances(tag, appliances) {
-    return cleanString(appliances).includes(tag);
+    return getCleanString(appliances).includes(tag);
 }
 
 function hasMatchingUtensils(tag, utensils) {
-    return utensils.some(utensil => cleanString(utensil).includes(tag));
+    return utensils.some(utensil => getCleanString(utensil).includes(tag));
 }
 
 export function submitSearchTag(event) {
@@ -71,26 +74,16 @@ function addSearchTag(tag) {
     const container = document.querySelector('.tags');
     const tagDom = getSearchTagDOM(tag);
     container.appendChild(tagDom);
-    recipesFilterTags.push(cleanString(tag));
-    const matchingRecipes = filterRecipes();
-    displayRecipes(matchingRecipes);
-    const dropdownElements = getDropdownElements(matchingRecipes);
-    for (const [category, elements] of Object.entries(dropdownElements)) {
-        populateDropdown(category, elements);
-    }
+    recipesFilterTags.push(getCleanString(tag));
+    updateRecipes();
 }
 
 export function removeSearchTag(event) {
     const tagElement = event.target.parentElement;
-    const tag = cleanString(tagElement.querySelector('.tag-title').textContent);
+    const tag = getCleanString(tagElement.querySelector('.tag-title').textContent);
     const index = recipesFilterTags.indexOf(tag);
     if (index > -1)
         recipesFilterTags.splice(index, 1);
     tagElement.remove();
-    const matchingRecipes = filterRecipes();
-    displayRecipes(matchingRecipes);
-    const dropdownElements = getDropdownElements(matchingRecipes);
-    for (const [category, elements] of Object.entries(dropdownElements)) {
-        populateDropdown(category, elements);
-    }
+    updateRecipes();
 }

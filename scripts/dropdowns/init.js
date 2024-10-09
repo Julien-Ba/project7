@@ -1,5 +1,4 @@
-import { recipesFilterTags } from '../recipes/init.js';
-import { capitalizeTitleCase, cleanString } from '../utils/string.js';
+import { getCapitalizedTitleCase, isRecipesFilterTag } from '../main.js';
 import { initClickEvent, initKeydownEvent, initKeyupEvent, initResetEvent, initSubmitEvent } from './event.js';
 import { displayDropdown } from './mutation.js';
 
@@ -28,7 +27,7 @@ export const dropdownFilterTags = {};
  */
 
 export function initDropdown(data) {
-    Object.assign(dropdownElements, getDropdownElements(data));
+    Object.assign(dropdownElements, updateDropdownElements(data));
     displayDropdown(dropdownElements);
 
     initEventListeners();
@@ -50,8 +49,11 @@ function initEventListeners() {
  * @returns {Object[]} dropdownElements - Array of filter category objects populated
  */
 
-export function getDropdownElements(data) {
-    const dropdownElements = {};
+export function updateDropdownElements(data) {
+    for (const key in dropdownElements) {
+        delete dropdownElements[key];
+    }
+
     for (const category of Object.getOwnPropertyNames(dropdownCategories)) {
         const set = new Set();
 
@@ -61,16 +63,16 @@ export function getDropdownElements(data) {
             if (Array.isArray(categoryData)) {
                 categoryData.forEach(element => {
                     const name = element.ingredient || element;
-                    if (recipesFilterTags.includes(cleanString(name)))
+                    if (isRecipesFilterTag(name))
                         return;
                     set.add(name);
                 });
             } else if (categoryData) {
-                if (!recipesFilterTags.includes(cleanString(categoryData)))
+                if (!isRecipesFilterTag(categoryData))
                     set.add(categoryData);
             }
         });
-        dropdownElements[category] = Array.from(set).map(capitalizeTitleCase);
+        dropdownElements[category] = Array.from(set).map(getCapitalizedTitleCase);
     }
     return dropdownElements;
 }
