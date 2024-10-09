@@ -22,10 +22,7 @@ init();
 export function updateRecipes() {
     const matchingRecipes = filterRecipes();
     displayRecipes(matchingRecipes);
-    const dropdownElements = getDropdownElements(matchingRecipes);
-    for (const [category, elements] of Object.entries(dropdownElements)) {
-        populateDropdown(category, elements);
-    }
+    updateDropdowns(matchingRecipes);
 }
 
 export function isRecipesFilterTag(tag) {
