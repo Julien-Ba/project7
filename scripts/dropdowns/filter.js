@@ -38,7 +38,6 @@ function addSearchTerm(searchTerm, category) {
 }
 
 function filterDropdownElements(category) {
-    console.log(dropdownFilterTags);
     return !dropdownFilterTags[category]?.length
         ? dropdownElements[category]
         : dropdownElements[category].filter(element =>
