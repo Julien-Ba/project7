@@ -51,6 +51,9 @@ export function submitSearchTag(event, category) {
     const input = event.target.querySelector('input[type="search"]');
     const tag = input.value;
 
+    if (tag.length < 3)
+        return;
+
     addSearchTerm(tag, category);
     removePreviousSearchTerm(previousSearchTerm, category);
     previousSearchTerm = '';
