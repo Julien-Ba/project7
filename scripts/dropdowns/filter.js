@@ -1,5 +1,4 @@
-import { addRecipesFilterTag, getCleanString, removeRecipesFilterTag, updateRecipes } from '../main.js';
-import { dropdownElements, dropdownFilterTags } from './init.js';
+import { addRecipesFilterTag, dropdownElements, dropdownFilterTags, getCleanString, removeRecipesFilterTag, updateRecipes } from './init.js';
 import { displayDropdownTag, populateDropdown } from './mutation.js';
 import { getDropdownTagDOM } from './template.js';
 

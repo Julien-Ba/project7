@@ -1,6 +1,4 @@
-import { getCleanString, updateDropdowns } from "../main.js";
-import { allRecipes, recipesFilterTags } from "./init.js";
-import { displayRecipes } from "./mutation.js";
+import { allRecipes, cleanString, recipesFilterTags, updateRecipes } from "./init.js";
 import { getSearchTagDOM } from "./template.js";
 
 
@@ -9,18 +7,12 @@ let previousSearchTerm = '';
 
 export function searchInRecipes(event) {
     removePreviousSearchTerm(previousSearchTerm);
-    const searchTerm = getCleanString(event.target.value);
+    const searchTerm = cleanString(event.target.value);
     if (searchTerm?.length > 2) {
         recipesFilterTags.push(searchTerm);
         previousSearchTerm = searchTerm;
     }
     updateRecipes();
-}
-
-function updateRecipes() {
-    const matchingRecipes = filterRecipes();
-    displayRecipes(matchingRecipes);
-    updateDropdowns(matchingRecipes);
 }
 
 function removePreviousSearchTerm(searchTerm) {
@@ -45,19 +37,19 @@ export function filterRecipes() {
 }
 
 function hasMatchingName(tag, name) {
-    return getCleanString(name).includes(tag);
+    return cleanString(name).includes(tag);
 }
 
 function hasMatchingIngredients(tag, ingredients) {
-    return ingredients.some(ingredient => getCleanString(ingredient.ingredient).includes(tag));
+    return ingredients.some(ingredient => cleanString(ingredient.ingredient).includes(tag));
 }
 
 function hasMatchingAppliances(tag, appliances) {
-    return getCleanString(appliances).includes(tag);
+    return cleanString(appliances).includes(tag);
 }
 
 function hasMatchingUtensils(tag, utensils) {
-    return utensils.some(utensil => getCleanString(utensil).includes(tag));
+    return utensils.some(utensil => cleanString(utensil).includes(tag));
 }
 
 export function submitSearchTag(event) {
@@ -74,13 +66,13 @@ function addSearchTag(tag) {
     const container = document.querySelector('.tags');
     const tagDom = getSearchTagDOM(tag);
     container.appendChild(tagDom);
-    recipesFilterTags.push(getCleanString(tag));
+    recipesFilterTags.push(cleanString(tag));
     updateRecipes();
 }
 
 export function removeSearchTag(event) {
     const tagElement = event.target.parentElement;
-    const tag = getCleanString(tagElement.querySelector('.tag-title').textContent);
+    const tag = cleanString(tagElement.querySelector('.tag-title').textContent);
     const index = recipesFilterTags.indexOf(tag);
     if (index > -1)
         recipesFilterTags.splice(index, 1);

@@ -1,4 +1,3 @@
-import { getCapitalizedTitleCase, isRecipesFilterTag } from '../main.js';
 import { initClickEvent, initKeydownEvent, initKeyupEvent, initResetEvent, initSubmitEvent } from './event.js';
 import { displayDropdown } from './mutation.js';
 
@@ -19,6 +18,12 @@ export const dropdownCategories = {
 export const dropdownElements = {};
 export const dropdownFilterTags = {};
 
+export let addRecipesFilterTag;
+export let removeRecipesFilterTag;
+export let updateRecipes;
+export let getCleanString;
+export let getCapitalizedTitleCase;
+
 
 
 /**
@@ -26,8 +31,13 @@ export const dropdownFilterTags = {};
  * @param {Object[]} validatedRecipes 
  */
 
-export function initDropdown(data) {
-    Object.assign(dropdownElements, updateDropdownElements(data));
+export function initDropdown(data, addRecipesFilterTagCB, removeRecipesFilterTagCB, updateRecipesCB, cleanString, capitalizeTitleCase) {
+    addRecipesFilterTag = addRecipesFilterTagCB;
+    removeRecipesFilterTag = removeRecipesFilterTagCB;
+    updateRecipes = updateRecipesCB
+    getCleanString = cleanString;
+    getCapitalizedTitleCase = capitalizeTitleCase;
+    Object.assign(dropdownElements, updateDropdownElements(data, []));
     displayDropdown(dropdownElements);
 
     initEventListeners();
@@ -49,7 +59,7 @@ function initEventListeners() {
  * @returns {Object[]} dropdownElements - Array of filter category objects populated
  */
 
-export function updateDropdownElements(data) {
+export function updateDropdownElements(data, tags) {
     for (const key in dropdownElements) {
         delete dropdownElements[key];
     }
@@ -62,13 +72,12 @@ export function updateDropdownElements(data) {
 
             if (Array.isArray(categoryData)) {
                 categoryData.forEach(element => {
-                    const name = element.ingredient || element;
-                    if (isRecipesFilterTag(name))
-                        return;
-                    set.add(name);
+                    const name = getCleanString(element.ingredient || element);
+                    if (!tags.includes(name))
+                        set.add(name);
                 });
             } else if (categoryData) {
-                if (!isRecipesFilterTag(categoryData))
+                if (!tags.includes(getCleanString(categoryData)))
                     set.add(categoryData);
             }
         });
