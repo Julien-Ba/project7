@@ -1,8 +1,4 @@
-import { getDropdownElements } from "../dropdowns/init.js";
-import { populateDropdown } from "../dropdowns/mutation.js";
-import { cleanString } from "../utils/string.js";
-import { allRecipes, recipesFilterTags } from "./init.js";
-import { displayRecipes } from "./mutation.js";
+import { allRecipes, cleanString, recipesFilterTags, updateRecipes } from "./init.js";
 import { getSearchTagDOM } from "./template.js";
 
 
@@ -16,8 +12,7 @@ export function searchInRecipes(event) {
         recipesFilterTags.push(searchTerm);
         previousSearchTerm = searchTerm;
     }
-    const matchingRecipes = filterRecipes();
-    return displayRecipes(matchingRecipes, searchTerm);
+    updateRecipes();
 }
 
 function removePreviousSearchTerm(searchTerm) {
@@ -71,6 +66,8 @@ export function submitSearchTag(event) {
     event.preventDefault();
     const input = event.target.querySelector('input[type="search"]');
     const tag = input.value;
+    if (tag.length < 3)
+        return;
     removePreviousSearchTerm(previousSearchTerm);
     previousSearchTerm = '';
     addSearchTag(tag);
@@ -82,12 +79,7 @@ function addSearchTag(tag) {
     const tagDom = getSearchTagDOM(tag);
     container.appendChild(tagDom);
     recipesFilterTags.push(cleanString(tag));
-    const matchingRecipes = filterRecipes();
-    displayRecipes(matchingRecipes);
-    const dropdownElements = getDropdownElements(matchingRecipes);
-    for (const [category, elements] of Object.entries(dropdownElements)) {
-        populateDropdown(category, elements);
-    }
+    updateRecipes();
 }
 
 export function removeSearchTag(event) {
@@ -97,10 +89,5 @@ export function removeSearchTag(event) {
     if (index > -1)
         recipesFilterTags.splice(index, 1);
     tagElement.remove();
-    const matchingRecipes = filterRecipes();
-    displayRecipes(matchingRecipes);
-    const dropdownElements = getDropdownElements(matchingRecipes);
-    for (const [category, elements] of Object.entries(dropdownElements)) {
-        populateDropdown(category, elements);
-    }
+    updateRecipes();
 }
