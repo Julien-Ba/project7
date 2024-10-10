@@ -3,7 +3,15 @@ import { getSearchTagDOM } from "./template.js";
 
 
 
+// variable to store the search term
 let previousSearchTerm = '';
+
+
+
+/**
+ * Handles search functionality for recipes
+ * @param {Event} event - keyupEvent || resetEvent
+ */
 
 export function searchInRecipes(event) {
     removePreviousSearchTerm(previousSearchTerm);
@@ -15,6 +23,13 @@ export function searchInRecipes(event) {
     updateRecipes();
 }
 
+
+
+/**
+ * Removes the previous search term from the filter tags
+ * @param {string} searchTerm - The search term to remove
+ */
+
 function removePreviousSearchTerm(searchTerm) {
     if (recipesFilterTags?.length) {
         const index = recipesFilterTags.indexOf(searchTerm);
@@ -23,6 +38,13 @@ function removePreviousSearchTerm(searchTerm) {
         }
     }
 }
+
+
+
+/**
+ * Filters recipes based on the current filter tags
+ * @returns {Object[]} - The filtered recipes
+ */
 
 export function filterRecipes() {
     return recipesFilterTags?.length
@@ -36,21 +58,64 @@ export function filterRecipes() {
         ) : allRecipes;
 }
 
+
+
+/**
+ * Checks if a tag matches the recipe name
+ * @param {string} tag - The tag to check
+ * @param {string} name - The recipe name
+ * @returns {boolean} - True if the tag matches the name
+ */
+
 function hasMatchingName(tag, name) {
     return cleanString(name).includes(tag);
 }
+
+
+
+/**
+ * Checks if a tag matches any of the recipe ingredients
+ * @param {string} tag - The tag to check
+ * @param {Object[]} ingredients - The recipe ingredients
+ * @returns {boolean} - True if the tag matches any ingredient
+ */
 
 function hasMatchingIngredients(tag, ingredients) {
     return ingredients.some(ingredient => cleanString(ingredient.ingredient).includes(tag));
 }
 
+
+
+/**
+ * Checks if a tag matches the recipe appliances
+ * @param {string} tag - The tag to check
+ * @param {string} appliances - The recipe appliances
+ * @returns {boolean} - True if the tag matches the appliances
+ */
+
 function hasMatchingAppliances(tag, appliances) {
     return cleanString(appliances).includes(tag);
 }
 
+
+
+/**
+ * Checks if a tag matches any of the recipe utensils
+ * @param {string} tag - The tag to check
+ * @param {string[]} utensils - The recipe utensils
+ * @returns {boolean} - True if the tag matches any utensil
+ */
+
 function hasMatchingUtensils(tag, utensils) {
     return utensils.some(utensil => cleanString(utensil).includes(tag));
 }
+
+
+
+/**
+ * Handles the submission of a search tag
+ * @param {Event} event - The submit event
+ */
 
 export function submitSearchTag(event) {
     event.preventDefault();
@@ -64,6 +129,13 @@ export function submitSearchTag(event) {
     input.value = '';
 }
 
+
+
+/**
+ * Adds a search tag to the DOM and updates recipes
+ * @param {string} tag - The tag to add
+ */
+
 function addSearchTag(tag) {
     const container = document.querySelector('.tags');
     const tagDom = getSearchTagDOM(tag);
@@ -71,6 +143,13 @@ function addSearchTag(tag) {
     recipesFilterTags.push(cleanString(tag));
     updateRecipes();
 }
+
+
+
+/**
+ * Removes a search tag from the DOM and updates recipes
+ * @param {Event} event - The remove event
+ */
 
 export function removeSearchTag(event) {
     const tagElement = event.target.parentElement;

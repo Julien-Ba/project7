@@ -4,7 +4,16 @@ import { getDropdownTagDOM } from './template.js';
 
 
 
+// variable to store the search term
 let previousSearchTerm = '';
+
+
+
+/**
+ * Handles search functionality within dropdowns
+ * @param {Event} event - keyupEvent || resetEvent
+ * @param {string} category - The category being searched
+ */
 
 export function searchInDropdowns(event, category) {
     removePreviousSearchTerm(previousSearchTerm, category);
@@ -16,10 +25,25 @@ export function searchInDropdowns(event, category) {
     updateDropdown(category);
 }
 
+
+
+/**
+ * Updates the dropdown for a specific category
+ * @param {string} category - The category to update
+ */
+
 export function updateDropdown(category) {
     const matchingDropdownElements = filterDropdownElements(category);
     populateDropdown(category, matchingDropdownElements);
 }
+
+
+
+/**
+ * Removes the previous search term from the filter tags
+ * @param {string} searchTerm - The search term to remove
+ * @param {string} category - The category to remove the search term from
+ */
 
 function removePreviousSearchTerm(searchTerm, category) {
     if (dropdownFilterTags.hasOwnProperty(category) && Array.isArray(dropdownFilterTags[category])) {
@@ -30,11 +54,27 @@ function removePreviousSearchTerm(searchTerm, category) {
     }
 }
 
+
+
+/**
+ * Adds a search term to the filter tags
+ * @param {string} searchTerm - The search term to add
+ * @param {string} category - The category to add the search term to
+ */
+
 function addSearchTerm(searchTerm, category) {
     if (!dropdownFilterTags.hasOwnProperty(category))
         dropdownFilterTags[category] = [];
     dropdownFilterTags[category].push(searchTerm);
 }
+
+
+
+/**
+ * Filters dropdown elements based on the current filter tags
+ * @param {string} category - The category to filter
+ * @returns {string[]} - The filtered dropdown elements
+ */
 
 function filterDropdownElements(category) {
     return !dropdownFilterTags[category]?.length
@@ -45,6 +85,14 @@ function filterDropdownElements(category) {
             )
         );
 }
+
+
+
+/**
+ * Handles the submission of a search tag
+ * @param {Event} event - The submit event
+ * @param {string} category - The category being searched
+ */
 
 export function submitSearchTag(event, category) {
     event.preventDefault();
@@ -64,11 +112,27 @@ export function submitSearchTag(event, category) {
     updateDropdown(category);
 }
 
+
+
+/**
+ * Adds a search tag to the DOM
+ * @param {string} tag - The tag to add
+ * @param {string} category - The category to add the tag to
+ */
+
 function addSearchTag(tag, category) {
     const container = document.querySelector(`.${category}-tags`);
     const tagDom = getDropdownTagDOM(tag);
     container.appendChild(tagDom);
 }
+
+
+
+/**
+ * Removes a search tag
+ * @param {Event} event - The click event
+ * @param {string} category - The category to remove the tag from
+ */
 
 export function removeSearchTag(event, category) {
     const tagElement = event.target;
@@ -78,12 +142,26 @@ export function removeSearchTag(event, category) {
     updateDropdown(category);
 }
 
+
+
+/**
+ * Adds a dropdown tag to the main recipes filters
+ * @param {Event} event - The click event
+ */
+
 export function addDropdownTag(event) {
     displayDropdownTag(event);
     const tag = event.target.textContent;
     addRecipesFilterTag(tag);
     updateRecipes();
 }
+
+
+
+/**
+ * Removes a dropdown tag from the main recipes filters
+ * @param {Event} event - The click event
+ */
 
 export function removeDropdownTag(event) {
     const tagElement = event.target.parentElement;

@@ -4,9 +4,8 @@ import { getDropdownDOM, getFilterDOM, getMainTagDOM } from './template.js';
 
 
 /**
- * Create a new dropdown for each category
- *
- * ---> need '<div class="filters-lists"></div>' in the DOM <---
+ * Creates a new dropdown for each category
+ * @param {Object.<string, string[]>} dropdownElements - Object containing dropdown elements for each category
  */
 
 export function displayDropdown(dropdownElements) {
@@ -21,8 +20,9 @@ export function displayDropdown(dropdownElements) {
 
 
 /**
- * Populate each dropdown category
- * @param {object[]} data 
+ * Populates a dropdown category with elements
+ * @param {string} category - The category to populate
+ * @param {string[]} dropdownElements - Array of elements to populate the dropdown with
  */
 
 export function populateDropdown(category, dropdownElements) {
@@ -37,14 +37,10 @@ export function populateDropdown(category, dropdownElements) {
 
 
 /**
-* open or close dropdown containers
-* @param {Element} container
-* @returns {dataset} New value of data-expanded
-*
-* toggle the dataset of the dropdown container
-* manage the modifications with css
-* container.dataset.expanded === 'true' ? 'false : 'true
-*/
+ * Toggles the expanded state of a dropdown container
+ * @param {Element} container - The dropdown container element
+ * @returns {string} The new value of data-expanded
+ */
 
 export function toggleDropdown(container) {
     return container.dataset.expanded = container.dataset.expanded !== 'true';
@@ -52,19 +48,15 @@ export function toggleDropdown(container) {
 
 
 /**
-* alternate way to close dropdown containers
-* @param {clickEvent || keydownEvent} event 
-* @returns {dataset} The new value of data-expanded
-*
-* allow to close the dropdown if:
-* - the user click outside of the container
-* - the user press escape
-* manage the modifications with css
+* Alternate ways to close dropdown containers
+* @param {Event} event - clickEvent || keydownEvent
+* @returns {string} The new value of data-expanded
 */
 
 export function closeDropdown(event) {
     const containers = document.querySelectorAll('.filters-lists [data-expanded="true"]');
 
+    // close the dropdown if the user click outside of the container
     if (event.type === 'click') {
         containers.forEach(container => {
             if (container.dataset.expanded === 'true' && !container.contains(event.target))
@@ -72,6 +64,7 @@ export function closeDropdown(event) {
         });
     }
 
+    // close the dropdown if the user press escape
     if (event.type === 'keydown') {
         if (event.key !== 'Escape' && event.code !== '27')
             return;
@@ -82,13 +75,21 @@ export function closeDropdown(event) {
     }
 }
 
+
+
+/**
+ * Displays a selected dropdown tag in the main tag container
+ * @param {Event} event - clickEvent
+ */
+
 export function displayDropdownTag(event) {
     const unselectedTagElement = event.target;
     const tag = unselectedTagElement.textContent;
 
-    // Remove the tag from the unselected list
+    // Remove the tag from the dropdown
     unselectedTagElement.remove();
 
+    // Add the tag to the main container
     const mainTagDom = getMainTagDOM(tag);
     const tagContainer = document.querySelector('.tags');
     tagContainer.insertAdjacentElement('afterbegin', mainTagDom);

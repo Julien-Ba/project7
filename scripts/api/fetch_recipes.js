@@ -1,3 +1,9 @@
+/**
+ * Fetches recipes from a JSON file.
+ * @returns {Promise<Object>} The parsed JSON data containing recipes.
+ * @throws {Error} If the fetch fails or the response is not ok.
+ */
+
 export async function getRecipes() {
     const src = 'data/recipes.json';
     try {
