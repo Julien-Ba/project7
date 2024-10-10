@@ -1,3 +1,8 @@
+/**
+ * List of template function for the module
+ * always return Element
+ */
+
 export function getDropdownDOM(normalizedName, name) {
     const wrapper = document.createElement('div');
     wrapper.className = `filters-${normalizedName}-wrapper`;

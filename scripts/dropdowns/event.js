@@ -4,6 +4,10 @@ import { closeDropdown, toggleDropdown } from './mutation.js';
 
 
 
+/**
+ * Initializes click event listeners
+ */
+
 export function initClickEvent() {
     document.body.addEventListener('click', event => {
         const target = event.target;
@@ -15,6 +19,7 @@ export function initClickEvent() {
         if (tagElement?.length) {
             tagElement.forEach(element => {
                 if (element.contains(target) && target.classList.contains('close-tag')) {
+                    // remove tags added to the main search filters, put them back in the associated dropdown
                     removeDropdownTag(event);
                 }
             });
@@ -27,18 +32,21 @@ export function initClickEvent() {
         for (const category of Object.getOwnPropertyNames(dropdownCategories)) {
             const dropdown = document.querySelector(`.filters-${category}`);
             if (dropdown && dropdown.contains(target) && target === dropdown.firstElementChild) {
+                // toggle the opening/closing of the dropdowns
                 toggleDropdown(dropdown);
                 break;
             }
 
             const listContainer = document.querySelector(`.filters-${category}-list`);
             if (listContainer && listContainer.contains(target)) {
+                // add tags to the main search filters
                 addDropdownTag(event);
                 break;
             }
 
             const tagContainer = document.querySelector(`.${category}-tags`);
             if (tagContainer && tagContainer.contains(target)) {
+                // remove dropdown's search term
                 removeSearchTag(event, category);
                 break;
             }
@@ -46,11 +54,24 @@ export function initClickEvent() {
     });
 }
 
+
+
+/**
+ * Initializes keydown event listeners
+ */
+
 export function initKeydownEvent() {
     document.addEventListener('keydown', event => {
+        // close the dropdown by pressing escape
         closeDropdown(event);
     });
 }
+
+
+
+/**
+ * Initializes keyup event listeners
+ */
 
 export function initKeyupEvent() {
     document.addEventListener('keyup', event => {
@@ -58,6 +79,7 @@ export function initKeyupEvent() {
         for (const category of Object.getOwnPropertyNames(dropdownCategories)) {
             const searchInput = document.querySelector(`#search-${category}`);
             if (searchInput && target === searchInput) {
+                // filter the dropdown list with its searchbox
                 searchInDropdowns(event, category)
                 break;
             }
@@ -65,18 +87,31 @@ export function initKeyupEvent() {
     });
 }
 
+
+
+/**
+ * Initializes reset event listeners
+ */
+
 export function initResetEvent() {
     document.addEventListener('reset', event => {
         const target = event.target;
         for (const category of Object.getOwnPropertyNames(dropdownCategories)) {
             const searchForm = document.querySelector(`#search-filter-${category}`);
             if (searchForm && target === searchForm) {
+                // reset the dropdown's searchbox
                 searchInDropdowns(event, category);
                 break;
             }
         };
     });
 }
+
+
+
+/**
+ * Initializes submit event listeners
+ */
 
 export function initSubmitEvent() {
     document.addEventListener('submit', event => {
@@ -85,6 +120,7 @@ export function initSubmitEvent() {
         for (const category of Object.getOwnPropertyNames(dropdownCategories)) {
             const searchForm = document.querySelector(`#search-filter-${category}`);
             if (searchForm && target === searchForm) {
+                // submit the dropdown's searchbox term, add a tag to filter its list
                 submitSearchTag(event, category);
                 break;
             }

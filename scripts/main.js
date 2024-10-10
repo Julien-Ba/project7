@@ -9,6 +9,13 @@ import { capitalizeTitleCase, cleanString } from './utils/string.js';
 
 
 
+/**
+ * Initializes the application by fetching recipes, validating them,
+ * and setting up the UI components.
+ * @async
+ * @function init
+ */
+
 async function init() {
     const { recipes } = await getRecipes();
     const validatedRecipes = validateRecipes(recipes);
@@ -18,21 +25,52 @@ async function init() {
 
 init();
 
+
+
+/**
+ * Updates the recipes display and dropdowns based on current filters.
+ * @function updateRecipes
+ */
+
 function updateRecipes() {
     const matchingRecipes = filterRecipes();
     displayRecipes(matchingRecipes);
     updateDropdowns(matchingRecipes);
 }
 
+
+
+/**
+ * Adds a new filter tag to the recipes filter.
+ * @function addRecipesFilterTag
+ * @param {string} tag - The tag to be added to the filter.
+ */
+
 function addRecipesFilterTag(tag) {
     recipesFilterTags.push(cleanString(tag));
 }
+
+
+
+/**
+ * Removes a filter tag from the recipes filter.
+ * @function removeRecipesFilterTag
+ * @param {string} tag - The tag to be removed from the filter.
+ */
 
 function removeRecipesFilterTag(tag) {
     const index = recipesFilterTags.indexOf(tag);
     if (index > -1)
         recipesFilterTags.splice(index, 1);
 }
+
+
+
+/**
+ * Updates all dropdowns based on the current recipes and filter tags.
+ * @function updateDropdowns
+ * @param {Array} recipes - The current set of recipes to base the update on.
+ */
 
 function updateDropdowns(recipes) {
     updateDropdownElements(recipes, recipesFilterTags);

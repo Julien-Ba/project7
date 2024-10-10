@@ -23,10 +23,11 @@ const frenchUncapitalizedWords = [
 
 
 /**
- * Cleans and lowercases a string
+ * Trim and lowercases a string
  * @param {string} str - The input string
- * @return {string} The cleaned, lowercase string
+ * @return {string} The cleaned string
  */
+
 export function cleanString(str = '') {
     return str.trim().toLowerCase();
 }
@@ -38,6 +39,7 @@ export function cleanString(str = '') {
  * @param {string} str - The input string
  * @return {string} The capitalized string
  */
+
 export function capitalizeTitleCase(str) {
     const words = str.toLowerCase().split(/\s+/);
     return words.map((word, index) => {
@@ -55,6 +57,7 @@ export function capitalizeTitleCase(str) {
  * @param {string} word - The input word
  * @return {string} The capitalized word
  */
+
 function capitalizeWord(word) {
     if (word.includes('\'')) {
         const [prefix, main] = word.split('\'');
@@ -72,6 +75,7 @@ function capitalizeWord(word) {
  * @param {string} str - The input string
  * @return {string} The string with its first letter capitalized
  */
+
 export function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }

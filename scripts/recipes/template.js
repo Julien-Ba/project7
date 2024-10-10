@@ -2,6 +2,10 @@ import { capitalizedTitleCase } from "./init.js";
 
 
 
+/**
+ * List of template function for the module
+ * always return Element
+ */
 
 export function getRecipeDOM(data) {
     const { description, image, ingredients, name, time } = data;
