@@ -1,0 +1,15 @@
+graph TD
+    A[Start] --> B[Search input]
+    B --> C{Input length > 2}
+    C --> |yes| D[Add input to filter tags]
+    C --> |no| B
+    D --> E[Filter recipes]
+    E --> F[Every tag]
+    F --> G1{hasMatchingName}
+    G1 --> |yes| H[Recipe passes filter]
+    G1 --> |no| G2{hasMatchingDescription}
+    G2 --> |yes| H
+    G2 --> |no| G3{hasMatchingIngredients}
+    G3 --> |yes| H
+    G3 --> |no| I[Recipe does not passes filter]
+    H --> J[Return filtered recipes]
