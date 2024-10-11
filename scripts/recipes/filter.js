@@ -54,9 +54,8 @@ export function filterRecipes() {
         let isMatch = true;
         for (const tag of recipesFilterTags) {
             if (!hasMatchingName(tag, recipe.name)
+                && !hasMatchingDescription(tag, recipe.description)
                 && !hasMatchingIngredients(tag, recipe.ingredients)
-                && !hasMatchingAppliances(tag, recipe.appliances)
-                && !hasMatchingUtensils(tag, recipe.utensils)
             ) {
                 isMatch = false;
                 break;
@@ -78,7 +77,20 @@ export function filterRecipes() {
  */
 
 function hasMatchingName(tag, name) {
-    return cleanString(name).includes(tag);
+    return cleanString(name).match(tag);
+}
+
+
+
+/**
+ * Check if a tag matches the recipe description
+ * @param {string} tag - The tag to check
+ * @param {string} description - The recipe description
+ * @returns {boolean} - True if the tag matches the description
+ */
+
+function hasMatchingDescription(tag, description) {
+    return cleanString(description).match(tag);
 }
 
 
@@ -91,33 +103,7 @@ function hasMatchingName(tag, name) {
  */
 
 function hasMatchingIngredients(tag, ingredients) {
-    return ingredients.some(ingredient => cleanString(ingredient.ingredient).includes(tag));
-}
-
-
-
-/**
- * Checks if a tag matches the recipe appliances
- * @param {string} tag - The tag to check
- * @param {string} appliances - The recipe appliances
- * @returns {boolean} - True if the tag matches the appliances
- */
-
-function hasMatchingAppliances(tag, appliances) {
-    return cleanString(appliances).includes(tag);
-}
-
-
-
-/**
- * Checks if a tag matches any of the recipe utensils
- * @param {string} tag - The tag to check
- * @param {string[]} utensils - The recipe utensils
- * @returns {boolean} - True if the tag matches any utensil
- */
-
-function hasMatchingUtensils(tag, utensils) {
-    return utensils.some(utensil => cleanString(utensil).includes(tag));
+    return ingredients.some(ingredient => cleanString(ingredient.ingredient).match(tag));
 }
 
 
